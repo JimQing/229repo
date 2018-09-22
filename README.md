@@ -12,8 +12,8 @@
     * -java   （关于java的项目）
       * -myproject\
   * -terminal （关于终端的项目）
-    * -ios\
-    * -Android\
+    * -ios
+    * -Android
       * -myproject
 # 备注
 请勿将无关的依赖上传到此处，每个人请设置好自己的.gitignore,例如某些maven项目,还有一些node依赖\
