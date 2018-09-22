@@ -10,7 +10,7 @@
   * -rearend  （关于后端的项目）
     * -maven  （关于maven的项目）
     * -java   （关于java的项目）
-      * -myproject\
+      * -myproject
   * -terminal （关于终端的项目）
     * -ios
     * -Android
