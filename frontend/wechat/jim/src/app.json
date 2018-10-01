@@ -1,0 +1,14 @@
+{
+    "pages": [
+        "pages/mall/main",
+        "pages/index/main",
+        "pages/music/main"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Sparking Star",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "black"
+    }
+}
