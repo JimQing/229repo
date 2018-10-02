@@ -1,6 +1,7 @@
 {
     "pages": [
         "pages/mall/main",
+        "pages/mall-product/main",
         "pages/index/main",
         "pages/music/main"
     ],

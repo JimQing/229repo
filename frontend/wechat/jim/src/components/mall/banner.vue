@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <img  v-for="(item, index) in imgUrl" :key="index" :src="item" :class="'banner-img' + index" alt="">
+            <img  v-for="(item, index) in imgUrl" :key="index" :src="item" class="banner-img" alt="">
         </div>
     </div>
 </template>
@@ -37,39 +37,7 @@
             &:active {
                 animation-play-state: paused;
             }
-            .banner-img0 {
-                color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
-                background-size: cover; 
-                height: 100%;
-                width: 7.125rem;
-                float: left;
-            }
-            .banner-img1 {
-                color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
-                background-size: cover; 
-                height: 100%;
-                width: 7.125rem;
-                float: left;
-            }
-            .banner-img2 {
-                color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
-                background-size: cover; 
-                height: 100%;
-                width: 7.125rem;
-                float: left;
-            }
-            .banner-img3 {
-                color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
-                background-size: cover; 
-                height: 100%;
-                width: 7.125rem;
-                float: left;
-            }
-            .banner-img4 {
+            .banner-img {
                 color: white;
                 background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
                 background-size: cover; 

@@ -5,6 +5,11 @@
             <div class="search-con">
                 <input class="search-input" id="search-input" placeholder="请输入您想要搜索的商品！">
             </div>
+            <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
+                <i-avatar class="back-avatar" shape="square" size="large">
+                    <i-icon type="packup" class="back-icon" color="#ffffff" size="32"/>
+                </i-avatar>
+            </div>
             <Banner></Banner>
             <Guide></Guide>
             <Product></Product>
@@ -20,18 +25,31 @@
         data() {
             return {
                 motto: 'Hello World',
-                userInfo: {}
+                userInfo: {},
+                scrollPos: '',
+                isShowBack: false
             }
         },
         components: { Banner, Guide , Product },
         methods: {
-            bindViewTap() {
-                const url = '../logs/main'
-                wx.navigateTo({ url })
-            },
-            clickHandle(msg, ev) {
-                console.log('clickHandle:', msg, ev)
+            jumpToTop() {
+                if (wx.pageScrollTo) {
+                    wx.pageScrollTo({
+                        scrollTop: 0,
+                        duration: 400
+                    });
+                } else {
+                    wx.showModal({
+                        title: '提示',
+                        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+                    })
+                }
             }
+        },
+        // 获取滚动条当前位置
+        onPageScroll(e) {
+            this.isShowBack = e.scrollTop > 250;
+            this.scrollPos = e.scrollTop;
         }
     }
 </script>
@@ -69,6 +87,16 @@
             border-radius: 7px;
             background: #ffffff;
             outline: none;
+        }
+        .back {
+            position: fixed;
+            bottom: .2rem;
+            right: .2rem;
+            z-index: 999;
+            .back-icon {
+                position: relative;
+                top: -.05rem;
+            }
         }
     }
 </style>

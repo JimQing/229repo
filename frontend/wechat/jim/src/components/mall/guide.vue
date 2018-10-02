@@ -1,11 +1,11 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <div class="box-item" v-for="(item, index) in imgUrl" :key="index">
-                <i-avatar class="item-img" shape="square" size="large">
-                    A
+            <div class="box-item" v-for="(item, index) in guider" :key="index" @click="JumpToProduct(item.content)">
+                <i-avatar class="item-img" shape="circle" size="large">
+                    <i-icon :type="item.icon" class="item-icon" size="32" color="#c60023"/>
                 </i-avatar>
-                <span>test</span>
+                <span>{{item.content}}</span>
             </div>
         </div>
     </div>
@@ -15,19 +15,55 @@
     export default {
         data() {
             return {
-                imgUrl: [
-                    '','','','','','','',''
+                guider: [
+                    {
+                        icon: 'mobilephone',
+                        content: '手机'
+                    },
+                    {
+                        icon: 'camera',
+                        content: '数码'
+                    },
+                    {
+                        icon: 'computer',
+                        content: '电脑'
+                    },
+                    {
+                        icon: 'activity',
+                        content: '办公配件'
+                    },
+                    {
+                        icon: 'live',
+                        content: '电视'
+                    },
+                    {
+                        icon: 'integral',
+                        content: '珠宝'
+                    },
+                    {
+                        icon: 'document',
+                        content: '图书'
+                    },
+                    {
+                        icon: 'homepage',
+                        content: '家装'
+                    }
                 ]
             }
         },
         methods: {
+            JumpToProduct(content) {
+                wx.navigateTo({
+                    url: '../mall-product/main?content=' + content
+                })
+            }
         },
     }
 </script>
 <style lang="less" scoped>
     .wrapper {
         background: white;
-        height: 4rem;
+        height: 3.5rem;
         width: 7.125rem;
         margin: 0 auto;
         text-align: center;
@@ -35,13 +71,19 @@
         overflow: hidden;
     }
     .box{
-        padding-top: .1rem;
         .box-item {
             display: inline-block;
+            font-size: .35rem;
+            padding-left: .05rem;
             .item-img {
                 display:block;
-                margin-top: .5rem;
+                margin-top: .325rem;
+                margin-bottom: .04rem;
                 width: 1.5rem;
+            }
+            .item-icon {
+                position: relative;
+                top: -.05rem;
             }
         }
     }
