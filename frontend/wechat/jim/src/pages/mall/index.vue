@@ -12,7 +12,8 @@
             </div>
             <Banner></Banner>
             <Guide></Guide>
-            <Product></Product>
+            <Product :atBottom="isBottom" :productTitle="productTitle"></Product>
+            <i-toast id="toast" />
         </div>
     </div>
 </template>
@@ -21,13 +22,16 @@
     import Banner from '@/components/mall/banner.vue';
     import Guide from '@/components/mall/guide.vue';
     import Product from '@/components/mall/product.vue';
+    import { $Toast } from '../../../static/iView/base/index';
     export default {
         data() {
             return {
                 motto: 'Hello World',
                 userInfo: {},
                 scrollPos: '',
-                isShowBack: false
+                isBottom: false,
+                isShowBack: false,
+                productTitle: '花样生活'
             }
         },
         components: { Banner, Guide , Product },
@@ -35,9 +39,9 @@
             jumpToTop() {
                 if (wx.pageScrollTo) {
                     wx.pageScrollTo({
-                        scrollTop: 0,
-                        duration: 400
+                        scrollTop: 0
                     });
+                    this.isShowBack = false;
                 } else {
                     wx.showModal({
                         title: '提示',
@@ -48,8 +52,14 @@
         },
         // 获取滚动条当前位置
         onPageScroll(e) {
-            this.isShowBack = e.scrollTop > 250;
+            if (!this.isShowBack) {
+                this.isShowBack = e.scrollTop > 250;
+            }
             this.scrollPos = e.scrollTop;
+        },
+        // 上拉加载回调接口
+        onReachBottom() {
+            this.isBottom = !this.isBottom;
         }
     }
 </script>

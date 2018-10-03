@@ -1,33 +1,54 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <div class="header-line"></div>
-            <div class="header-title">
-                <i-icon type="like_fill" size="28" color="#c60023" />
-                <span>花样生活</span>
-            </div>
+            <HTitle :headerText="productTitle"></HTitle>
             <div class="product-flow">
                 <div class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
                     <div class="item" v-for="(items, index) in imgUrl" :key="index">
                         <div class="item__content item__content--large" v-if="index === 0 && fIndex === 0">
-                            <div class="item-img"><img src="http://jimqing.xin/img/miniprogram/img/index/bg.jpg" alt=""></div>
-                            <div class="content">{{items.content}}</div>    
+                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                            <div class="price-con">
+                                <span class="price">￥{{items.price}}</span>
+                            </div>
+                            <div class="content">
+                                {{items.name}}
+                            </div>
                         </div>
                         <div class="item__content item__content--medium" v-else-if="index === 0 && fIndex === 1">
-                            <div class="item-img"><img src="http://jimqing.xin/img/miniprogram/img/index/bg.jpg" alt=""></div>
-                            <div class="content">{{items.content}}</div>
+                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                            <div class="price-con">
+                                <span class="price">￥{{items.price}}</span>
+                            </div>
+                            <div class="content">
+                                {{items.name}}
+                            </div>
                         </div>
                         <div class="item__content item__content--large" v-else-if="index%2">
-                            <div class="item-img"><img src="http://jimqing.xin/img/miniprogram/img/index/bg.jpg" alt=""></div>
-                            <div class="content">{{items.content}}</div>    
+                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                            <div class="price-con">
+                                <span class="price">￥{{items.price}}</span>
+                            </div>
+                            <div class="content">
+                                {{items.name}}
+                            </div>
                         </div>
                         <div class="item__content item__content--medium" v-else-if="index%3">
-                            <div class="item-img"><img src="http://jimqing.xin/img/miniprogram/img/index/bg.jpg" alt=""></div>
-                            <div class="content">{{items.content}}</div>
+                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                            <div class="price-con">
+                                <span class="price">￥{{items.price}}</span>
+                            </div>
+                            <div class="content">
+                                {{items.name}}
+                            </div>
                         </div>
                         <div class="item__content item__content--large" v-else>
-                            <div class="item-img"><img src="http://jimqing.xin/img/miniprogram/img/index/bg.jpg" alt=""></div>
-                            <div class="content">{{items.content}}</div>    
+                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                            <div class="price-con">
+                                <span class="price">￥{{items.price}}</span>
+                            </div>
+                            <div class="content">
+                                {{items.name}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,31 +58,38 @@
 </template>
 
 <script>
+    import HTitle from './header';
+    const imageHost = ''; // http://onlineshoppingmall.xin:8082/
     export default {
         data() {
             return {
                 waterflow : ['', ''],
                 imgUrl: [
                     {
-                        url:'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
-                        content: '1'
+                        mainImage: 'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
+                        price: '6999',
+                        name: '[测试学习用]Apple iPhone 7  (A1661) 128G' +
+                            '玫瑰金色 移动联通电信4G手机'
                     },
                     {
-                        url:'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
-                        content: '2'
-                    },
-                    {
-                        url:'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
-                        content: '3'
+                        mainImage: 'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
+                        price: '6999',
+                        name: '[测试学习用]Apple iPhone 7  (A1661) 128G' +
+                            '玫瑰金色 移动联通电信4G手机'
                     }
-                ]
+                ],
+                productTitle: '默认商品列表'
             }
         },
+        props: ['atBottom', 'productTitle'],
+        components: { HTitle },
         methods: {
         },
-        // 上拉加载回调接口
-        onReachBottom() {
-            this.imgUrl.push({});
+        watch: {
+            // 到底部时触发添加商品item
+            atBottom() {
+                this.imgUrl.push({});
+            }
         }
     }
 </script>
@@ -78,40 +106,11 @@
     .box {
         padding-top: .1rem;
 
-        .header-line {
-            position: relative;
-            width: 75%;
-            margin: .4rem auto;
-        }
-
-        .header-line::after {
-            content: " ";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 1rpx;
-            background-image: linear-gradient(0deg, transparent 50%, #605697 50%);
-        }
-
-        .header-title {
-            position: relative;
-            top: -.28rem;
-            display: inline-block;
-            width: 2.8rem;
-            background: #ffffff;
-
-            span {
-                margin-right: .14rem;
-                position: relative;
-                top: 5rpx;
-            }
-        }
-
         /* waterflow */
         .product-flow {
             display: flex;
             flex-direction: row;
+            margin-top: -.2rem;
             width: 7.125rem;
         }
 
@@ -133,27 +132,43 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            height: 3rem;
             font-size: 40rpx;
-            background: #a9d2e6;
+            background: #ffffff;
+            border: 1px solid #ebecee;
             box-sizing: border-box;
             color: #18314F;
             .item-img {
                 background: no-repeat #eeeeee;
                 background-size: cover;
-                height: 78%;
-                width: 85%;
-                margin-top: .2rem;
+                height: 75%;
+                width: 100%;
                 img {
                     height: 100%;
                     width: 100%;
                 }
             }
+            .price-con {
+                height: 5%;
+                width: 95%;
+                margin-top: .15rem;
+                text-align: left;
+                line-height: .36rem;
+                span {
+                    font-size: .36rem;
+                    color: #e7380d;
+                }
+            }
             .content {
-                width: 85%;
-                white-space: nowrap;
+                width: 95%;
+                height: 17%;
+                color: #666;
+                text-align: left;
+                font-size: 22rpx;
                 overflow: hidden;
-                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                text-decoration: none;
             }
         }
 
@@ -162,9 +177,14 @@
         }
 
         .item__content--medium {
-            color: #ffffff;
-            background: #a9d2e6;
-            height: 3.75rem;
+            height: 5.35rem;
+            .item-img {
+                height: 73%;
+            }
+            .content {
+                position: relative;
+                top: .1rem;
+            }
         }
 
         .item__content--medium:active {
@@ -172,9 +192,7 @@
         }
 
         .item__content--large {
-            color: #384E77;
-            background: #a9d2e6;
-            height: 4.80rem;
+            height: 5.80rem;
             .content {
                 position: relative;
                 top: .1rem;

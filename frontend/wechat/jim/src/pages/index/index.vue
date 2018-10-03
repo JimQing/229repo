@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <a href="/pages/music/main" class="counter">去往music示例页面</a>
-            <a href="/pages/mall/main" class="counter">去往mall示例页面</a>
+            <div @click="showMusic" class="counter">去往music示例页面</div>
+            <div @click="showMall" class="counter">去往mall示例页面</div>
         </div>
     </div>
 </template>
@@ -16,6 +16,16 @@
             }
         },
         methods: {
+            showMusic() {
+                wx.redirectTo({
+                    url: '/pages/music/main'
+                });
+            },
+            showMall() {
+                wx.redirectTo({
+                    url: '/pages/mall/main'
+                });
+            }
         }
     }
 </script>

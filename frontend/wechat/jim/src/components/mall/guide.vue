@@ -2,9 +2,9 @@
     <div class="wrapper">
         <div class="box">
             <div class="box-item" v-for="(item, index) in guider" :key="index" @click="JumpToProduct(item.content)">
-                <i-avatar class="item-img" shape="circle" size="large">
+                <div class="item-img">
                     <i-icon :type="item.icon" class="item-icon" size="32" color="#c60023"/>
-                </i-avatar>
+                </div>
                 <span>{{item.content}}</span>
             </div>
         </div>
@@ -63,7 +63,7 @@
 <style lang="less" scoped>
     .wrapper {
         background: white;
-        height: 3.5rem;
+        height: 3.3rem;
         width: 7.125rem;
         margin: 0 auto;
         text-align: center;
@@ -82,8 +82,6 @@
                 width: 1.5rem;
             }
             .item-icon {
-                position: relative;
-                top: -.05rem;
             }
         }
     }

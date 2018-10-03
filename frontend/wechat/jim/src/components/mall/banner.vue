@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" :style="{height: bannerHeight, width: bannerWidth}">
         <div class="box">
             <img  v-for="(item, index) in imgUrl" :key="index" :src="item" class="banner-img" alt="">
         </div>
@@ -8,23 +8,28 @@
 
 <script>
     export default {
-        data() {
-            return {
-                imgUrl: [
+        props: {
+            bannerHeight: {
+                type: String,
+                default: '300rpx'
+            },
+            bannerWidth: {
+                type: String,
+                default: '712.5rpx'
+            },
+            imgUrl: {
+                type: Array,
+                default: [
                     '','','','',''
                 ]
             }
-        },
-        methods: {
-        },
+        }
     }
 </script>
 
 <style lang="less" scoped>
     .wrapper {
         background: #523f3d;
-        height: 3rem;
-        width: 7.125rem;
         margin: .2rem auto;
         text-align: center;
         position: relative;
@@ -39,15 +44,14 @@
             }
             .banner-img {
                 color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg');
-                background-size: cover; 
+                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg') no-repeat;
+                background-size: contain; 
                 height: 100%;
                 width: 7.125rem;
                 float: left;
             }
         }
     }
-
 
     @keyframes imgbox {
         0%,

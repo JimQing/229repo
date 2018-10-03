@@ -14,30 +14,44 @@
             </div>
             <!-- 内容  -->
             <div class="product-box">
-                <div class="header-line"></div>
-                <Product :atBottom="isBottom" :productTitle="'Mall - ' + content"></Product>
+                <Banner :bannerHeight="bannerHeight"></Banner>
+                <div class="content">
+                    <div class="product-name">{{productName}}</div>
+                    <div class="product-price">
+                        Price: 
+                        <span>￥6999</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="product-detail">
+                        <span class="detail-title">商品详情: </span>
+                        <div class="detail-box">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <i-button type="ghost" @click="handleText">加载中...</i-button>
+            <i-button type="ghost" @click="handleText">这里是地板</i-button>
             <i-toast id="toast" />
         </div>
     </div>
 </template>
 
 <script>
-    import Product from '@/components/mall/product.vue';
+    import Banner from '@/components/mall/banner.vue';
     import { $Toast } from '../../../static/iView/base/index';
     export default {
         data() {
             return {
+                productName: '[测试学习用]Apple iPhone 7  (A1661) 128G 玫瑰金色 移动联通电信4G手机',
                 content: '',
-                isBottom: false
+                isBottom: false,
+                bannerHeight: '500rpx'
             }
         },
-        components: { Product },
+        components: { Banner },
         methods: {
             handleText () {
                 $Toast({
-                    content: this.content
+                    content: '这里是地板'
                 });
             },
             toBack() {
@@ -79,7 +93,7 @@
             position: absolute;
             top: .55rem;
             left: .2rem;
-            display:inline-block;
+            display: inline-block;
             width: .65rem;
             font-size: .48rem;
             font-weight: 700;
@@ -88,7 +102,7 @@
             position: absolute;
             top: .55rem;
             left: 1rem;
-            display:inline-block;
+            display: inline-block;
             width: .65rem;
             font-size: .48rem;
             font-weight: 700;
@@ -117,19 +131,66 @@
             background: #ffffff;
             outline: none;
         }
-        .header-line {
+        .content {
+            background: white;
+            width: 7.125rem;
+            margin: 0 auto;
+            text-align: center;
             position: relative;
-            width: 75%;
-            margin: .3rem auto;
-        }
-        .header-line::after {
-            content: " ";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 1rpx;
-            background-image: linear-gradient(0deg, transparent 50%, #605697 50%);
+            overflow: hidden;
+            .product-price {
+                height: .5rem;
+                width: 95%;
+                text-align: right;
+                line-height: .5rem;
+                margin: .15rem auto;
+                span {
+                    font-size: .5rem;
+                    color: #e7380d;
+                }
+            }
+            .product-name {
+                width: 95%;
+                font-size: .4rem;
+                text-align: left;
+                margin: .15rem auto;
+                color: #c60023;
+                font-weight: bold;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+            }
+            .line {
+                position: relative;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .line::after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 1rpx;
+                background-image: linear-gradient(0deg, transparent 50%, #eeeeee 50%);
+            }
+            .product-detail {
+                width: 95%;
+                text-align: left;
+                margin: .3rem auto;
+                .detail-title {
+                    font-size: .36rem;
+                    color: #c60023;
+                    font-weight: bold;
+                }
+                .detail-box {
+                    /* 预留待删 */
+                    height: 13rem;
+                    margin: .15rem auto;
+                    border: 1px solid #000000;
+                }
+            }
         }
     }
 </style>
