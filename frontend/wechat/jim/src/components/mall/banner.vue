@@ -20,7 +20,11 @@
             imgUrl: {
                 type: Array,
                 default: [
-                    '','','','',''
+                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg',
+                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner2.jpg',
+                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner3.jpg',
+                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner4.jpg',
+                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg'
                 ]
             }
         }
@@ -37,14 +41,14 @@
         .box {
             width: 35.625rem;
             height: 100%;
-            animation: imgbox 6s ease-in-out infinite forwards;
+            animation: imgbox 8s ease-in-out infinite forwards;
             /* 如果想手指按住不动不执行动画，不能使用hover而是使用active */
             &:active {
                 animation-play-state: paused;
             }
             .banner-img {
                 color: white;
-                background: url('http://jimqing.xin/img/miniprogram/img/index/banner.jpg') no-repeat;
+                background-repeat: no-repeat;
                 background-size: contain; 
                 height: 100%;
                 width: 7.125rem;
@@ -60,19 +64,19 @@
         }
         21%,
         35% {
-            margin-left: -7.125rem;
+            margin-left: -7.118rem;
         }
         42%,
         56% {
-            margin-left: -14.225rem;
+            margin-left: -14.222rem;
         }
         63%,
         77% {
-            margin-left: -21.35rem;
+            margin-left: -21.348rem;
         }
         86%,
         to {
-            margin-left: -28.475rem;
+            margin-left: -28.472rem;
         }
     }
 </style>

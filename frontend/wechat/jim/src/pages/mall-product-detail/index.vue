@@ -1,17 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <div class="return-btn" @click="toBack">
-                <i-icon type="return" class="btn-icon" size="26"/>
-            </div>
-            <div class="home-btn" @click="toHome">
-                <i-icon type="homepage_fill" class="btn-icon" size="26"/>
-            </div>
-            <div class="box-header">Mall - mini</div>
-            <!-- 搜索框 -->
-            <div class="search-con">
-                <input class="search-input" id="search-input" :placeholder="content">
-            </div>
+            <TopNav :keyword='content'/>
             <!-- 内容  -->
             <div class="product-box">
                 <Banner :bannerHeight="bannerHeight"></Banner>
@@ -19,7 +9,11 @@
                     <div class="product-name">{{productName}}</div>
                     <div class="product-price">
                         Price: 
-                        <span>￥6999</span>
+                        <span class="price">￥6999</span>
+                    </div>
+                    <div class="product-store">
+                        Store: 
+                        <span class="store">685</span>
                     </div>
                     <div class="line"></div>
                     <div class="product-detail">
@@ -29,6 +23,15 @@
                     </div>
                 </div>
             </div>
+            <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
+                <i-avatar class="back-avatar" shape="square" size="large">
+                    <i-icon type="packup" class="back-icon" color="#ffffff" size="32"/>
+                </i-avatar>
+            </div>
+            <div class="product-bottom">
+                <div class="collect"><span>★</span></div>
+                <div class="buy"><span>立即购买</span></div>
+            </div>
             <i-button type="ghost" @click="handleText">这里是地板</i-button>
             <i-toast id="toast" />
         </div>
@@ -37,6 +40,7 @@
 
 <script>
     import Banner from '@/components/mall/banner.vue';
+    import TopNav from '@/components/mall/top-nav.vue';
     import { $Toast } from '../../../static/iView/base/index';
     export default {
         data() {
@@ -44,15 +48,29 @@
                 productName: '[测试学习用]Apple iPhone 7  (A1661) 128G 玫瑰金色 移动联通电信4G手机',
                 content: '',
                 isBottom: false,
+                isShowBack: false,
                 bannerHeight: '500rpx'
-            }
+            };
         },
-        components: { Banner },
+        components: { Banner, TopNav },
         methods: {
             handleText () {
                 $Toast({
                     content: '这里是地板'
                 });
+            },
+            jumpToTop() {
+                if (wx.pageScrollTo) {
+                    wx.pageScrollTo({
+                        scrollTop: 0
+                    });
+                    this.isShowBack = false;
+                } else {
+                    wx.showModal({
+                        title: '提示',
+                        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+                    })
+                }
             },
             toBack() {
                 wx.navigateBack({
@@ -64,6 +82,11 @@
                     url: '../mall/main'
                 });
             }
+        },
+        // 获取滚动条当前位置
+        onPageScroll(e) {
+            this.isShowBack = e.scrollTop > 250;
+            this.scrollPos = e.scrollTop;
         },
         // 上拉加载回调接口
         onReachBottom() {
@@ -138,14 +161,18 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            .product-price {
+            .product-price, .product-store{
                 height: .5rem;
                 width: 95%;
                 text-align: right;
                 line-height: .5rem;
                 margin: .15rem auto;
-                span {
+                .price {
                     font-size: .5rem;
+                    color: #e7380d;
+                }
+                .store {
+                    font-size: .35rem;
                     color: #e7380d;
                 }
             }
@@ -190,6 +217,51 @@
                     margin: .15rem auto;
                     border: 1px solid #000000;
                 }
+            }
+        }
+        .product-bottom {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1.2rem;
+            width: 100%;
+            background: #412d2d;
+            z-index: 1000;
+            .collect {
+                display: table;
+                font-size: .6rem;
+                width: 25%;
+                color: #38413d;
+                height: 100%;
+                border-right: 1px solid #c60023;
+                background: #f6fa16;
+            }
+            .buy {
+                display: table;
+                font-size: .5rem;
+                width: 75%;
+                height: 100%;
+                color: #ffffff;
+                background: #c0314b;
+            }
+            span {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+        .back {
+            position: fixed;
+            bottom: 1.3rem;
+            right: .2rem;
+            z-index: 999;
+            .back-icon {
+                position: relative;
+                top: -.05rem;
             }
         }
     }

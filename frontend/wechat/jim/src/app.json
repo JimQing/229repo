@@ -1,9 +1,9 @@
 {
     "pages": [
-        "pages/mall-product-detail/main",
         "pages/mall/main",
         "pages/mall-product/main",
         "pages/index/main",
+        "pages/mall-product-detail/main",
         "pages/music/main"
     ],
     "window": {

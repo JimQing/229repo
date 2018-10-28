@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import {request} from './utils/deliver.js'
+import {request} from './util/deliver.js'
 import store from './store';
 
 Vue.config.productionTip = false

@@ -30,7 +30,7 @@
                     },
                     {
                         icon: 'activity',
-                        content: '办公配件'
+                        content: '办公'
                     },
                     {
                         icon: 'live',

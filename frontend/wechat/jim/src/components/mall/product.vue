@@ -3,10 +3,10 @@
         <div class="box">
             <HTitle :headerText="productTitle"></HTitle>
             <div class="product-flow">
-                <div class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
-                    <div class="item" v-for="(items, index) in imgUrl" :key="index">
-                        <div class="item__content item__content--large" v-if="index === 0 && fIndex === 0">
-                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                <div v-if="isShowProduct" class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
+                    <div class="item" v-for="(items, index) in productList" :key="index">
+                        <div v-if="index%2 === 0 && fIndex === 0" class="item__content item__content--large">
+                            <div class="item-img"><img :src="items.imageHost + items.mainImage" alt=""></div>
                             <div class="price-con">
                                 <span class="price">￥{{items.price}}</span>
                             </div>
@@ -14,35 +14,8 @@
                                 {{items.name}}
                             </div>
                         </div>
-                        <div class="item__content item__content--medium" v-else-if="index === 0 && fIndex === 1">
-                            <div class="item-img"><img :src="imageHost" alt=""></div>
-                            <div class="price-con">
-                                <span class="price">￥{{items.price}}</span>
-                            </div>
-                            <div class="content">
-                                {{items.name}}
-                            </div>
-                        </div>
-                        <div class="item__content item__content--large" v-else-if="index%2">
-                            <div class="item-img"><img :src="imageHost" alt=""></div>
-                            <div class="price-con">
-                                <span class="price">￥{{items.price}}</span>
-                            </div>
-                            <div class="content">
-                                {{items.name}}
-                            </div>
-                        </div>
-                        <div class="item__content item__content--medium" v-else-if="index%3">
-                            <div class="item-img"><img :src="imageHost" alt=""></div>
-                            <div class="price-con">
-                                <span class="price">￥{{items.price}}</span>
-                            </div>
-                            <div class="content">
-                                {{items.name}}
-                            </div>
-                        </div>
-                        <div class="item__content item__content--large" v-else>
-                            <div class="item-img"><img :src="imageHost" alt=""></div>
+                        <div v-else-if="index%2 !== 0 && fIndex === 1" class="item__content item__content--medium">
+                            <div class="item-img"><img :src="items.imageHost + items.mainImage" alt=""></div>
                             <div class="price-con">
                                 <span class="price">￥{{items.price}}</span>
                             </div>
@@ -52,6 +25,7 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="!isShowProduct" class="error-content">{{errorMsg}}</div>
             </div>
         </div>
     </div>
@@ -59,36 +33,45 @@
 
 <script>
     import HTitle from './header';
-    const imageHost = ''; // http://onlineshoppingmall.xin:8082/
+    import _product from '@/services/product-service.js';
     export default {
         data() {
             return {
-                waterflow : ['', ''],
-                imgUrl: [
-                    {
-                        mainImage: 'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
-                        price: '6999',
-                        name: '[测试学习用]Apple iPhone 7  (A1661) 128G' +
-                            '玫瑰金色 移动联通电信4G手机'
-                    },
-                    {
-                        mainImage: 'http://jimqing.xin/img/miniprogram/img/index/bg.jpg',
-                        price: '6999',
-                        name: '[测试学习用]Apple iPhone 7  (A1661) 128G' +
-                            '玫瑰金色 移动联通电信4G手机'
-                    }
-                ],
+                isShowProduct: false,
+                errorMsg: '加载中...',
+                waterflow: ['', ''],
+                productList: [],
                 productTitle: '默认商品列表'
             }
         },
-        props: ['atBottom', 'productTitle'],
+        props: ['atBottom', 'productTitle', 'productInfo'],
         components: { HTitle },
         methods: {
+            async getProductList() {
+                const res = await _product.getProductList(this.productInfo);
+
+                if(res.data.list.length) {
+                    this.productList = res.data.list;
+                    this.isShowProduct = true;
+                } else {
+                    this.isShowProduct = false;
+                    setTimeout(() => {
+                        this.errorMsg = '您所搜索的商品可能不存在哦...'
+                    }, 3000);
+                }
+            }
         },
+        mounted() {
+           this.getProductList();
+        },
+        // 订阅者模式
         watch: {
-            // 到底部时触发添加商品item
+            // 到底部时触发接口添加商品item 相当于pc页面上的下一页接口按钮
             atBottom() {
-                this.imgUrl.push({});
+                // this.productList.push({});
+            },
+            productInfo() {
+                this.getProductList();
             }
         }
     }
@@ -110,6 +93,7 @@
         .product-flow {
             display: flex;
             flex-direction: row;
+            margin: 0 auto;
             margin-top: -.2rem;
             width: 7.125rem;
         }
@@ -117,12 +101,12 @@
         .product-column {
             display: flex;
             flex-flow: column wrap;
-            width: 3.625rem;
+            width: 3.465rem;
+            margin: .06rem;
         }
 
         .item {
             box-sizing: border-box;
-            padding: 7rpx;
             counter-increment: item-counter;
         }
 
@@ -136,6 +120,7 @@
             background: #ffffff;
             border: 1px solid #ebecee;
             box-sizing: border-box;
+            margin-top: 12rpx;
             color: #18314F;
             .item-img {
                 background: no-repeat #eeeeee;
@@ -173,11 +158,11 @@
         }
 
         .item__content:active {
-            background: #d0ddec;
+            background: #f1f4f7;
         }
 
         .item__content--medium {
-            height: 5.35rem;
+            height: 5.05rem;
             .item-img {
                 height: 73%;
             }
@@ -192,7 +177,10 @@
         }
 
         .item__content--large {
-            height: 5.80rem;
+            height: 5.30rem;
+            .item-img {
+                height: 73%;
+            }
             .content {
                 position: relative;
                 top: .1rem;
@@ -201,6 +189,10 @@
 
         .item__content--large:active {
             background: #ebecee;
+        }
+        .error-content{
+            display: inline-block;
+            margin: 20rpx auto;
         }
     }
 </style>
