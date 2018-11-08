@@ -1,24 +1,27 @@
 <template>
     <div class="wrapper">
         <div class="box">
-            <TopNav :keyword='content'/>
+            <TopNav :keyword='content' :isShowInput="false"/>
             <!-- 内容  -->
             <div class="product-box">
-                <Banner :bannerHeight="bannerHeight"></Banner>
+                <Banner :bannerHeight="bannerHeight" :imgUrl="ImgUrl"></Banner>
                 <div class="content">
-                    <div class="product-name">{{productName}}</div>
+                    <div class="product-name">{{productDetail.name}}</div>
                     <div class="product-price">
                         Price: 
-                        <span class="price">￥6999</span>
+                        <span class="price">￥{{productDetail.price}}</span>
                     </div>
                     <div class="product-store">
                         Store: 
-                        <span class="store">685</span>
+                        <span class="store">{{productDetail.stock}}</span>
                     </div>
-                    <div class="line"></div>
+                </div>
+                <div class="content">
                     <div class="product-detail">
                         <span class="detail-title">商品详情: </span>
                         <div class="detail-box">
+                            <p>{{productDetail.subtitle}}</p>
+                            <div v-html="productDetail.detail" class="detail-message"></div>
                         </div>
                     </div>
                 </div>
@@ -29,8 +32,8 @@
                 </i-avatar>
             </div>
             <div class="product-bottom">
-                <div class="collect"><span>★</span></div>
-                <div class="buy"><span>立即购买</span></div>
+                <div class="collect" @click="onCollect"><span>★</span></div>
+                <div class="buy" @click="onBuy"><span>立即购买</span></div>
             </div>
             <i-button type="ghost" @click="handleText">这里是地板</i-button>
             <i-toast id="toast" />
@@ -41,16 +44,26 @@
 <script>
     import Banner from '@/components/mall/banner.vue';
     import TopNav from '@/components/mall/top-nav.vue';
+    import _product from '@/services/product-service.js';
     import { $Toast } from '../../../static/iView/base/index';
     export default {
         data() {
             return {
+                id: '',
+                productDetail: {},
+                ImgUrl: [],
                 productName: '[测试学习用]Apple iPhone 7  (A1661) 128G 玫瑰金色 移动联通电信4G手机',
                 content: '',
                 isBottom: false,
                 isShowBack: false,
-                bannerHeight: '500rpx'
+                bannerHeight: '650rpx'
             };
+        },
+        // created钩子在query拿到之前，所以报undefined，所以在mounted里边拿到
+        mounted() {
+            this.content = this.$root.$mp.query.content || 'null';
+            this.id = this.$root.$mp.query.id || 73;
+            this.getProductDetail(this.id);
         },
         components: { Banner, TopNav },
         methods: {
@@ -72,6 +85,25 @@
                     })
                 }
             },
+            async getProductDetail(id) {
+                const res = await _product.getProductDetail(id);
+
+                this.productDetail = res.data;
+                this.ImgUrl = this.productDetail.subImages.split(',').map(item => {
+                    item = 'http://img.happymmall.com/' + item;
+                    return item;
+                });
+            },
+            onBuy() {
+                $Toast({
+                    content: '购买功能暂未开通！'
+                });
+            },
+            onCollect() {
+                $Toast({
+                    content: '收藏功能暂未开通！'
+                });
+            },
             toBack() {
                 wx.navigateBack({
                     delta: 1, // 回退前 delta(默认为1) 页面
@@ -91,10 +123,6 @@
         // 上拉加载回调接口
         onReachBottom() {
             this.isBottom = !this.isBottom;
-        },
-        // created钩子在query拿到之前，所以报undefined，所以在mounted里边拿到
-        mounted() {
-            this.content = this.$root.$mp.query.content || 'null';
         }
     }
 </script>
@@ -112,6 +140,9 @@
         display: flex;
         flex-flow: column nowrap;
         width: 95%;
+        .product-box{
+            margin-top: 1.32rem;
+        }
         .return-btn {
             position: absolute;
             top: .55rem;
@@ -157,7 +188,7 @@
         .content {
             background: white;
             width: 7.125rem;
-            margin: 0 auto;
+            margin: .2rem auto;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -212,10 +243,10 @@
                     font-weight: bold;
                 }
                 .detail-box {
-                    /* 预留待删 */
-                    height: 13rem;
                     margin: .15rem auto;
-                    border: 1px solid #000000;
+                    .detail-message {
+                        width: 100%!important;
+                    }
                 }
             }
         }

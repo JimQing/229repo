@@ -5,7 +5,11 @@
             <div class="product-flow">
                 <div v-if="isShowProduct" class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
                     <div class="item" v-for="(items, index) in productList" :key="index">
-                        <div v-if="index%2 === 0 && fIndex === 0" class="item__content item__content--large">
+                        <div
+                        v-if="index%2 === 0 && fIndex === 0"
+                        class="item__content item__content--large"
+                        @click="handleClickShowDetail(index)"
+                        >
                             <div class="item-img"><img :src="items.imageHost + items.mainImage" alt=""></div>
                             <div class="price-con">
                                 <span class="price">￥{{items.price}}</span>
@@ -14,7 +18,11 @@
                                 {{items.name}}
                             </div>
                         </div>
-                        <div v-else-if="index%2 !== 0 && fIndex === 1" class="item__content item__content--medium">
+                        <div
+                        v-else-if="index%2 !== 0 && fIndex === 1"
+                        class="item__content item__content--medium"
+                        @click="handleClickShowDetail(index)"
+                        >
                             <div class="item-img"><img :src="items.imageHost + items.mainImage" alt=""></div>
                             <div class="price-con">
                                 <span class="price">￥{{items.price}}</span>
@@ -59,6 +67,11 @@
                         this.errorMsg = '您所搜索的商品可能不存在哦...'
                     }, 3000);
                 }
+            },
+            handleClickShowDetail(index) {
+                wx.navigateTo({
+                    url: '../mall-product-detail/main?id=' + this.productList[index].id
+                });
             }
         },
         mounted() {
@@ -157,10 +170,6 @@
             }
         }
 
-        .item__content:active {
-            background: #f1f4f7;
-        }
-
         .item__content--medium {
             height: 5.05rem;
             .item-img {
@@ -170,10 +179,6 @@
                 position: relative;
                 top: .1rem;
             }
-        }
-
-        .item__content--medium:active {
-            background: #ebecee;
         }
 
         .item__content--large {
@@ -187,9 +192,6 @@
             }
         }
 
-        .item__content--large:active {
-            background: #ebecee;
-        }
         .error-content{
             display: inline-block;
             margin: 20rpx auto;

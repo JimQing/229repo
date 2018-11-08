@@ -1,34 +1,35 @@
 <template>
     <div class="wrapper" :style="{height: bannerHeight, width: bannerWidth}">
-        <div class="box">
-            <img  v-for="(item, index) in imgUrl" :key="index" :src="item" class="banner-img" alt="">
+        <div class="box" id="banner">
+            <img  v-for="(item, index) in imgUrl" :key="index"
+                :src="item"
+                class="banner-img" alt="">
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            bannerHeight: {
-                type: String,
-                default: '300rpx'
-            },
-            bannerWidth: {
-                type: String,
-                default: '712.5rpx'
-            },
-            imgUrl: {
-                type: Array,
-                default: [
-                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg',
-                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner2.jpg',
-                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner3.jpg',
-                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner4.jpg',
-                    'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg'
-                ]
-            }
+export default {
+    props: {
+        bannerHeight: {
+            type: String,
+            default: '300rpx'
+        },
+        bannerWidth: {
+            type: String,
+            default: '712.5rpx'
+        },
+        imgUrl: {
+            type: Array,
+            default: [
+                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg',
+                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner2.jpg',
+                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner3.jpg',
+                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner4.jpg'
+            ]
         }
     }
+}
 </script>
 
 <style lang="less" scoped>
@@ -73,10 +74,6 @@
         63%,
         77% {
             margin-left: -21.348rem;
-        }
-        86%,
-        to {
-            margin-left: -28.472rem;
         }
     }
 </style>

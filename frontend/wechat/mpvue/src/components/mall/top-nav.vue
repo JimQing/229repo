@@ -8,7 +8,7 @@
         </div>
         <div class="box-header">Mall - mini</div>
         <!-- 搜索框 -->
-        <div class="search-con">
+        <div class="search-con" v-show="isShowInput">
             <input v-model="content" class="search-input" id="search-input" :placeholder="keyword || '请输入搜索关键字哦~~'"
                 @confirm="onShow">
         </div>
@@ -22,7 +22,16 @@
                 content: ''
             };
         },
-        props: ['keyword'],
+        props: {
+            keyword: {
+                type: String,
+                default: null
+            },
+            isShowInput: {
+                type: Boolean,
+                default: 'true'
+            }
+        },
         methods: {
             toBack() {
                 wx.navigateBack({
