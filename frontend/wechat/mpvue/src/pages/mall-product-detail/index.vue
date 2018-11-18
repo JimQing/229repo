@@ -37,6 +37,7 @@
             </div>
             <i-button type="ghost" @click="handleText">这里是地板</i-button>
             <i-toast id="toast" />
+            <div class="mask" v-if="isShowMask"></div>
         </div>
     </div>
 </template>
@@ -54,6 +55,7 @@
                 ImgUrl: [],
                 productName: '[测试学习用]Apple iPhone 7  (A1661) 128G 玫瑰金色 移动联通电信4G手机',
                 content: '',
+                isShowMask: false,
                 isBottom: false,
                 isShowBack: false,
                 bannerHeight: '650rpx'
@@ -65,12 +67,20 @@
             this.id = this.$root.$mp.query.id || 73;
             this.getProductDetail(this.id);
         },
+        onShow() {
+            console.log('onShow');
+            this.productDetail = {};
+            this.showLoading();
+        },
         components: { Banner, TopNav },
         methods: {
-            handleText () {
+            showLoading () {
                 $Toast({
-                    content: '这里是地板'
+                    content: '加载中',
+                    type: 'loading',
+                    duration: 0
                 });
+                this.isShowMask = true;
             },
             jumpToTop() {
                 if (wx.pageScrollTo) {
@@ -93,6 +103,10 @@
                     item = 'http://img.happymmall.com/' + item;
                     return item;
                 });
+                setTimeout(() => {
+                    $Toast.hide();
+                    this.isShowMask = false;
+                }, 1000);
             },
             onBuy() {
                 $Toast({
@@ -295,5 +309,14 @@
                 top: -.05rem;
             }
         }
+    }
+    .mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #412d2d;
+        opacity: .3;
     }
 </style>

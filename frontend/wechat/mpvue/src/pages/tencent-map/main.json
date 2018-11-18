@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "i-toast": "../../static/iView/toast/index",
+        "i-input": "../../static/iView/input/index",
+        "i-modal": "../../static/iView/modal/index",
+        "map-route": "plugin://tencentMap/mapRoute"
+    }
+}

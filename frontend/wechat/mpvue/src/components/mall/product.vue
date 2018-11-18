@@ -75,7 +75,16 @@
             }
         },
         mounted() {
-           this.getProductList();
+            this.getProductList();
+        },
+        onShow() {
+            this.getProductList();
+        },
+        onUnload() {
+            console.log('onUnload');
+        },
+        beforeDestory() {
+            console.log('beforeDestory');
         },
         // 订阅者模式
         watch: {

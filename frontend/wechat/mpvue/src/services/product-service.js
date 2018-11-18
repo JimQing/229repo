@@ -1,15 +1,17 @@
 import {request} from '../util/deliver.js'
+const baseUrl = 'http://www.happymmall.com';
+
 const product = {
     //获取商品列表
     getProductList(listParam) {
         return request({
-            url     : '/product/list.do',
+            url     : baseUrl + '/product/list.do',
             data    : listParam
         });
     },
     getProductDetail(productId) {
         return request({
-            url     : '/product/detail.do',
+            url     : baseUrl + '/product/detail.do',
             data    : {
                 productId : productId
             }

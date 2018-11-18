@@ -2,7 +2,8 @@
     <div class="wrapper" :style="{backgroundImage: getUrl}">
         <div class="box">
             <div class="todo-list">
-                <h1 class="title">Jim's todos</h1>
+                <h1 class="title"></h1>
+                <weather @click="showWeather" bgcolor="rgba(255,255,255,0)" color="#ffffff" appid="wxcc81b7ec7111553e"/>
                 <div class="todo-wrap">
                     <section class="new-todo">
                         <div class="new-todo__checkbox icon icon-jiantouxia" :class="{ 'z-show' : dropdown }" @click="onDropdown()"></div>
@@ -29,6 +30,8 @@
             </div>
             <div @click="showMusic" class="counter">去往music示例页面</div>
             <div @click="showMall" class="counter">去往mall示例页面</div>
+            <div @click="showMap" class="counter">去往腾讯地图示例页面</div>
+            
         </div>
     </div>
 </template>
@@ -97,11 +100,12 @@
         },
 
         created() {
-            console.log('created');
+            // console.log('created');
             const date = utils.formatTime(new Date());
             const lastDate = Storage.getStorageSync('lastLogin') || '';
 
             if (lastDate) {
+                console.log(date.day, lastDate.day);
                 if (lastDate.day !== date.day) {
                     this.BgNum = date.day % 12;
                     this.BgNum++;
@@ -111,21 +115,21 @@
             } else {
                 this.BgNum = date.day % 12;
                 this.BgNum++;
-                Storage.setStorageSync('lastLogin', date);
             }
             if (Storage.getStorageSync('list')) {
                 this.list = Storage.getStorageSync('list');
             }
             uid = this.list.length;
+            Storage.setStorageSync('lastLogin', date);
         },
 
         updated() {
-            console.log('updated');
+            // console.log('updated');
             Storage.setStorageSync('list', this.list);
         },
 
         beforeDestory() {
-            console.loe('beforeDestory');
+            // console.loe('beforeDestory');
             Storage.setStorageSync('BgNum', this.BgNum)
         },
 
@@ -156,8 +160,14 @@
                 });
             },
 
+            showWeather() {
+                wx.navigateTo({
+                    url: '/pages/weather/main'
+                });
+            },
+
             onStatusUpdate(todo) {
-                console.log('update');
+                // console.log('update');
                 if (todo.status === ACTIVE) {
                     todo.status = COMPELETED;
                     this.list[todo.id - 1].status = COMPELETED;
@@ -172,17 +182,17 @@
             },
 
             onRemove(item) {
-                console.log('remove');
+                // console.log('remove');
                 this.list = this.list.filter(todo => todo !== item);
             },
 
             onClear(status = COMPELETED) {
-                console.log('clear');
+                // console.log('clear');
                 this.list = this.list.filter(todo => todo.status !== status);
             },
 
             addTodo(todo) {
-                console.log('add');
+                // console.log('add');
                 this.list.push({
                     label: todo.label,
                     status: todo.status || ACTIVE,
@@ -200,6 +210,16 @@
                 wx.redirectTo({
                     url: '/pages/mall/main'
                 });
+            },
+
+            showMap() {
+                wx.navigateTo({
+                    url: '/pages/tencent-map/main'
+                });
+            },
+
+            handleCance() {
+                this.isShowMapModal = false;
             }
         }
     }
@@ -245,13 +265,14 @@
 
     .todo-wrap {
         width: @width;
+        margin-top: 1rem;
         margin-left: (750rpx - @width)/2;
         background: #ffffff;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
     }
 
     .title {
-        margin: 1rem auto;
+        margin: 1.25rem auto;
         width: @width;
         font-size: 100rpx;
         font-weight: 500;
@@ -291,7 +312,10 @@
             height: @height - 12px;
             line-height: @height - 12px;
             padding: 6px;
-            font-size: 12px;
+            font-size: 18px;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
         }
     }
 
@@ -316,11 +340,12 @@
         }
 
         &__msg {
-            flex: 1;
             line-height: @height;
             font-size: 18px;
-            white-space: pre-line;
-            word-break: break-all;
+            width: 75%;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
             transition: color 0.4s;
         }
 

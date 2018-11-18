@@ -1,6 +1,8 @@
 {
     "pages": [
         "pages/index/main",
+        "pages/tencent-map/main",
+        "pages/weather/main",
         "pages/mall-product-detail/main",
         "pages/mall-product/main",
         "pages/mall/main",
@@ -12,5 +14,15 @@
         "navigationBarTitleText": "Sparking Star",
         "navigationStyle": "custom",
         "navigationBarTextStyle": "black"
+    },
+    "plugins": {
+        "myPlugin": {
+            "version": "1.0.8",
+            "provider": "wx60d306fd175fe556"
+        },
+        "tencentMap": {
+            "version": "1.0.6",
+            "provider": "wx5bc2ac602a747594"
+        }
     }
 }
