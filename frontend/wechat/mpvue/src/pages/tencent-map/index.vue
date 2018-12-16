@@ -133,7 +133,7 @@ export default {
 
                     // _this.localPos = res.latitude + ',' + res.longitude;
                     _Map.reverseLocal(localStr).then(res=> {
-                        // console.log('获取当前位置信息（省份城市）');
+                        console.log('获取当前位置信息（省份城市）');
                         _this.localInfo = {
                             province: res.result.address_component.province,
                             city: res.result.address_component.city,
@@ -221,7 +221,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #f1f4f9;
+    background: ghostwhite;
     .header{
         height: .41rem;
         background: #3C69EF;
@@ -236,7 +236,7 @@ export default {
         width: 85%;
         font-size: 15px;
         margin: 10px auto;
-        border: 1px solid #eeeeee;
+        border: 1px solid ghostwhite;
         padding: .07rem;
     }
 }

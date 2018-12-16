@@ -143,7 +143,7 @@
 
 <style lang="less" scoped>
     .wrapper{
-        background: #eeeeee;
+        background: ghostwhite;
         background-size: contain;
         width: 100%;
         text-align: center;
@@ -176,7 +176,7 @@
             font-weight: 700;
         }
         .box-header {
-            background: #eeeeee;
+            background: ghostwhite;
             margin-top: .55rem;
             margin-bottom: .25rem;
             font-size: .48rem;

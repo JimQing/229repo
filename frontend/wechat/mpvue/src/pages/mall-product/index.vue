@@ -79,7 +79,7 @@
 
 <style lang="less" scoped>
     .wrapper{
-        background: #eeeeee;
+        background: ghostwhite;
         background-size: contain;
         width: 100%;
         text-align: center;

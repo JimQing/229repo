@@ -78,7 +78,7 @@
 
 <style lang="less" scoped>
     .wrapper {
-        background: #f1f2f3;
+        background: ghostwhite;
         background-size: contain;
         width: 7.5rem;
         text-align: center;

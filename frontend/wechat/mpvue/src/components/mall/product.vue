@@ -145,7 +145,7 @@
             margin-top: 12rpx;
             color: #18314F;
             .item-img {
-                background: no-repeat #eeeeee;
+                background: no-repeat ghostwhite;
                 background-size: cover;
                 height: 75%;
                 width: 100%;

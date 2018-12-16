@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :style="{backgroundImage: getUrl}">
+    <div class="wrapper" :style="getImg">
         <div class="box">
             <div class="todo-list">
                 <h1 class="title"></h1>
@@ -66,8 +66,9 @@
                 });
                 return newList
             },
-            getUrl() {
-                return 'url(\'http://jimqing.xin/img/miniprogram/img/index/' + this.BgNum + '.jpg\')';
+            getImg() {
+                    // return 'background-image: url(\'http://jimqing.xin/img/miniprogram/img/index/' + this.BgNum + '.jpg\')';
+                    return 'background: gray';
             }
         },
 
