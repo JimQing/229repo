@@ -93,9 +93,6 @@
                     { label: 'Active', value: ACTIVE },
                     { label: 'Completed', value: COMPELETED }
                 ],
-                backgroundDiv: {
-                    backgroundImage: 'url(\'http://jimqing.xin/img/miniprogram/img/index/3.jpg\')'
-                },
                 list: []
             }
         },
@@ -387,7 +384,6 @@
         }
     }
     .wrapper{
-        background-image: url('http://jimqing.xin/img/miniprogram/img/index/2.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         height: 13.34rem;

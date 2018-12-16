@@ -58,7 +58,6 @@
                 }
             },
             onShow() {
-                console.log(this.content);
                 wx.navigateTo({
                     url: '../mall-product/main?content=' + this.content
                 })

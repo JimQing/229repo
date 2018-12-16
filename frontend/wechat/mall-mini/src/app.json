@@ -1,0 +1,23 @@
+{
+    "pages": [
+        "pages/mall/main",
+        "pages/index/main",
+        "pages/mall-user-center/main",
+        "pages/logs/main",
+        "pages/mall-product-detail/main",
+        "pages/mall-product/main"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Mall-mini",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "black"
+    },
+    "plugins": {
+        "myPlugin": {
+            "version": "1.0.8",
+            "provider": "wx60d306fd175fe556"
+        }
+    }
+}

@@ -3,9 +3,6 @@
         "pages/index/main",
         "pages/tencent-map/main",
         "pages/weather/main",
-        "pages/mall-product-detail/main",
-        "pages/mall-product/main",
-        "pages/mall/main",
         "pages/music/main"
     ],
     "window": {

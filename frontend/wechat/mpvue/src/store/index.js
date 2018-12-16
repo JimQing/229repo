@@ -6,10 +6,9 @@ import actions from './actions';
 import getters from './getters';
 
 Vue.use(Vuex)
-// console.log(this.$store.state.imgHost);
 const state = {
     userInfo: {},
-    imgHost: 'http://onlineshoppingmall.xin:8082/'
+    str: '123'
 };
 
 export default new Vuex.Store({

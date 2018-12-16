@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style>
+page{
+    background: #f8f8f9;
+}
 .wrapper {
     margin: 0;
     padding: 0;
@@ -23,6 +26,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  background: #f8f8f9;
 }
 /* this rule will be remove */
 * {
