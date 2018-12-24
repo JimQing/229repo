@@ -29,7 +29,6 @@
                 </div>
             </div>
             <div @click="showMusic" class="counter">去往music示例页面</div>
-            <div @click="showMall" class="counter">去往mall示例页面</div>
             <div @click="showMap" class="counter">去往腾讯地图示例页面</div>
             
         </div>
@@ -67,8 +66,7 @@
                 return newList
             },
             getImg() {
-                    // return 'background-image: url(\'http://jimqing.xin/img/miniprogram/img/index/' + this.BgNum + '.jpg\')';
-                    return 'background: gray';
+                return 'background-image: url(\'http://onlineshoppingmall.xin:8082/' + this.BgNum + '.jpg\')';
             }
         },
 
@@ -105,13 +103,13 @@
             if (lastDate) {
                 console.log(date.day, lastDate.day);
                 if (lastDate.day !== date.day) {
-                    this.BgNum = date.day % 12;
+                    this.BgNum = date.day % 9;
                     this.BgNum++;
                 } else {
                     this.BgNum = Storage.getStorageSync('BgNum');
                 }
             } else {
-                this.BgNum = date.day % 12;
+                this.BgNum = date.day % 9;
                 this.BgNum++;
             }
             if (Storage.getStorageSync('list')) {
@@ -134,7 +132,7 @@
         // 下拉刷新回调接口
         onPullDownRefresh() {
             this.BgNum++;
-            if(this.BgNum === 13) {
+            if(this.BgNum === 10) {
                 this.BgNum = 1;
             }
             Storage.setStorageSync('BgNum', this.BgNum);
@@ -201,12 +199,6 @@
             showMusic() {
                 wx.redirectTo({
                     url: '/pages/music/main'
-                });
-            },
-
-            showMall() {
-                wx.redirectTo({
-                    url: '/pages/mall/main'
                 });
             },
 
