@@ -106,6 +106,8 @@
         text-align: center;
         position: relative;
         overflow: hidden;
+        border: 1px solid #eeeeee;
+        border-radius: .08rem;
     }
 
     .box {

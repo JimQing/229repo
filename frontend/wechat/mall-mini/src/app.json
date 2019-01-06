@@ -1,6 +1,8 @@
 {
     "pages": [
         "pages/mall/main",
+        "pages/mall-login/main",
+        "pages/mall-register/main",
         "pages/index/main",
         "pages/mall-user-center/main",
         "pages/logs/main",

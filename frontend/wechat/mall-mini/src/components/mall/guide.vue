@@ -62,24 +62,30 @@
 </script>
 <style lang="less" scoped>
     .wrapper {
-        background: white;
-        height: 3.3rem;
-        width: 7.125rem;
+        /* width: 7.125rem; */
         margin: 0 auto;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
     }
     .box{
+        background: #fcfcfc;
+        border: 1px solid #eeeeee;
+        border-radius: .08rem;
+        margin: 0;
         .box-item {
+            text-align: center;
             display: inline-block;
             font-size: .35rem;
-            padding-left: .05rem;
+            background: #fcfcfc;
+            padding: .19rem;
+            margin: .04rem;
             .item-img {
-                display:block;
-                margin-top: .325rem;
+                display: block;
+                /* margin-top: .325rem; */
                 margin-bottom: .04rem;
-                width: 1.5rem;
+                width: 1.3rem;
+                height: .6rem;
+            }
+            &:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
+                border-bottom: 1px solid #eeeeee;
             }
         }
     }

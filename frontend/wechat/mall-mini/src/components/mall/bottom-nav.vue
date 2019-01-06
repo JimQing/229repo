@@ -1,15 +1,15 @@
 <template>
     <div class="bar-bottom">
         <div class="item">
-            <i-icon type="homepage_fill" class="item-icon" size="32" color="#80848f" @click="onNavigate('mall-user-center')" />
+            <i-icon type="homepage_fill" class="item-icon" size="32" color="#80848f" @click="onRedirect('mall-user-center')" />
             <p>首页</p>
         </div>
         <div class="item">
             <i-icon type="label" class="item-icon" size="32" color="#80848f" />
             <p>购物车</p>
         </div>
-        <div class="item">
-            <i-icon type="mine" class="item-icon" size="32" color="#80848f" @click="onNavigate('mall-user-center')" />
+        <div class="item"  @click="onRedirect('mall-user-center')">
+            <i-icon type="mine" class="item-icon" size="32" color="#80848f" />
             <p>用户中心</p>
         </div>
     </div>
@@ -18,7 +18,7 @@
 <script>
     export default {
         methods: {
-            onNavigate(path) {
+            onRedirect(path) {
                 wx.navigateTo({
                     url: '/pages/' + path + '/main'
                 });

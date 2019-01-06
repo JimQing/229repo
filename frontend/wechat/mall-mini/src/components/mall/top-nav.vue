@@ -55,7 +55,8 @@
     
 <style lang="less" scoped>
     .top-nav{
-        box-shadow: 0 .02rem .03rem 0 #eeeeee;
+        /* box-shadow: 0 .02rem .03rem 0 #eeeeee; */
+        box-shadow: .05rem .04rem .2rem 0 #bdbdbd;
     }
     .return-btn {
         position: fixed;

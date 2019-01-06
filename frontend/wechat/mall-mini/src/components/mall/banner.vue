@@ -22,10 +22,10 @@ export default {
         imgUrl: {
             type: Array,
             default: [
-                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner1.jpg',
-                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner2.jpg',
-                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner3.jpg',
-                'http://onlineshoppingmall.xin:8083/mmall-fe/dist/resource/banner4.jpg'
+                'https://jimqing.xin/mall/mmall-fe/dist/resource/banner1.jpg',
+                'https://jimqing.xin/mall/mmall-fe/dist/resource/banner2.jpg',
+                'https://jimqing.xin/mall/mmall-fe/dist/resource/banner3.jpg',
+                'https://jimqing.xin/mall/mmall-fe/dist/resource/banner4.jpg'
             ]
         }
     }
@@ -34,11 +34,11 @@ export default {
 
 <style lang="less" scoped>
     .wrapper {
-        background: #523f3d;
         margin: .2rem auto;
         text-align: center;
         position: relative;
         overflow: hidden;
+        border-radius: .08rem;
         .box {
             width: 35.625rem;
             height: 100%;
