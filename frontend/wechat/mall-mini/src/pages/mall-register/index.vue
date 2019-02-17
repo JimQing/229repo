@@ -19,13 +19,13 @@
                     color="#80848f"
                 />
             </span>
-            <i-input
+            <input
                 class="p-input"
-                :value="userName"
+                v-model="username"
                 placeholder="请输入用户名"
                 @blur="checkOutUser"
                 autofocus
-            ></i-input>
+            ></input>
         </i-panel>
         <i-panel class="panel-box">
             <span class="p-label">
@@ -36,11 +36,11 @@
                     color="#80848f"
                 />
             </span>
-            <i-input
+            <input
                 class="p-input"
-                :value="email"
+                v-model="email"
                 placeholder="请输入邮箱"
-            ></i-input>
+            ></input>
         </i-panel>
         <i-panel class="panel-box">
             <span class="p-label">
@@ -51,12 +51,12 @@
                     color="#80848f"
                 />
             </span>
-            <i-input
+            <input
                 class="p-input"
-                :value="phoneNum"
+                v-model="phoneNum"
                 placeholder="请输入手机号"
                 type="number"
-            ></i-input>
+            ></input>
         </i-panel>
         <i-panel class="panel-box">
             <span class="p-label">
@@ -67,12 +67,13 @@
                     color="#80848f"
                 />
             </span>
-            <i-input 
+            <input 
                 class="p-input code"
-                :value="code"
+                v-model="code"
                 placeholder="请输入验证码"
                 type="number"
-            ></i-input>
+                maxlength="6"
+            ></input>
             <i-button
                 class="code-btn"
                 type="success"
@@ -85,9 +86,6 @@
         <div class="simple-btn register" @click="onSubmit">
             <span>注册</span>
         </div>
-        <div class="simple-btn login" @click="onRedirect('mall-login')">
-            <span>已有账户？去登陆~</span>
-        </div>
         <div class="desc">
         </div>
         <i-toast id="toast" />
@@ -96,13 +94,13 @@
 
 <script>
 import { $Toast } from '../../../static/iView/base/index';
+import _user from '@/services/user-service.js';
 import TopNav from '@/components/mall/top-nav.vue';
 export default {
     name: 'user_register',
     data() {
         return {
-            userInfo: {},
-            userName: '',
+            username: '',
             phoneNum: '',
             email: '',
             code: '',
@@ -151,16 +149,10 @@ export default {
             return result;
         },
         checkOutUser() {
-            if (!this.userName) {
+            if (!this.username) {
                 return;
             }
             // 检查用户名是否存在
-        },
-        onRedirect(path) {
-            // 页面跳转
-            wx.navigateTo({
-                url: '/pages/' + path + '/main'
-            });
         },
         onSubmit() {
             console.log('submit');
@@ -173,17 +165,24 @@ export default {
             }
             // 提交
             $Toast({
-                content: '用户信息提交中...',
+                content: '信息提交中...',
                 duration: 0
             });
-            setTimeout(() => {
+            _user.register({
+                username: this.username,
+                phoneNum: this.phoneNum,
+                password: '',
+                email: this.email,
+                question: 'Not Supported',
+                answer: 'Not Supported'
+            }).then(res=> {
                 $Toast.hide();
-                this.onRedirect('mall');
-            }, 5000);
+                $Toast({
+                    content: '注册成功！'
+                });
+                wx.navigateBack();
+            });
         }
-    },
-    mounted() {
-        // this.userInfo = this.$store.state.userInfo
     }
 };
 </script>
@@ -223,11 +222,11 @@ export default {
 }
 .p-input{
     display: inline-block;
-    position: relative;
-    right: 0;
-    width: 80%;
-    text-align: right;
-    background: #fcfcfc;
+    padding-left: .2rem;
+    width: 75%;
+    font-size: .32rem;
+    vertical-align: middle;
+    background: #ffffff;
 }
 .code{
     width: 53%;
@@ -253,9 +252,6 @@ export default {
     }
 }
 .register{
-    background: #c60023;
-}
-.login{
-    background: #19BE6B
+    background: #a08865;
 }
 </style>

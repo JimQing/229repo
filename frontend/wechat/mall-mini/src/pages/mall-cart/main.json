@@ -1,7 +1,7 @@
 {
     "usingComponents": {
+        "i-modal": "../../static/iView/modal/index",
         "i-avatar": "../../static/iView/avatar/index",
-        "i-button": "../../static/iView/button/index",
         "i-icon": "../../static/iView/icon/index",
         "i-toast": "../../static/iView/toast/index"
     }

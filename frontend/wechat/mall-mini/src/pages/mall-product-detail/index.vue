@@ -21,10 +21,13 @@
                         <span class="detail-title">商品详情: </span>
                         <div class="detail-box">
                             <p>{{productDetail.subtitle}}</p>
-                            <div v-html="productDetail.detail" class="detail-message"></div>
+                            <div class="picture" v-for="(item, index) in ImgUrl" :key="index">
+                                <img :src="item" alt="图片丢失了" srcset="">
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="content Tips">注意：本小程序商城仅用于个人自学作品的演示！所有商品均为虚拟商品，且不会有真实交易产生！</div>
             </div>
             <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
                 <i-avatar class="back-avatar" shape="square" size="large">
@@ -32,13 +35,15 @@
                 </i-avatar>
             </div>
             <div class="product-bottom">
-                <div class="collect" @click="onCollect"><span>★</span></div>
+                <div class="collect" @click="onCollect">
+                    <img src="../../../static/image/cart.png" alt="">
+                </div>
                 <div class="buy" @click="onBuy"><span>立即购买</span></div>
             </div>
             <i-button type="ghost" @click="handleText">这里是地板</i-button>
-            <i-toast id="toast" />
-            <div class="mask" v-if="isShowMask"></div>
+            <i-toast id="toast"  @touchmove.stop="scrollStop" />
         </div>
+        <div class="mask" v-if="isShowMask" @touchmove.stop="scrollStop"></div>
     </div>
 </template>
 
@@ -66,11 +71,11 @@
             this.content = this.$root.$mp.query.content || 'null';
             this.id = this.$root.$mp.query.id || 73;
             this.getProductDetail(this.id);
+            this.productDetail = {};
+            this.showLoading();
         },
         onShow() {
             console.log('onShow');
-            this.productDetail = {};
-            this.showLoading();
         },
         components: { Banner, TopNav },
         methods: {
@@ -95,18 +100,17 @@
                     })
                 }
             },
+            scrollStop() {},
             async getProductDetail(id) {
                 const res = await _product.getProductDetail(id);
 
                 this.productDetail = res.data;
                 this.ImgUrl = this.productDetail.subImages.split(',').map(item => {
-                    item = 'http://img.happymmall.com/' + item;
+                    item = this.productDetail.imageHost + item;
                     return item;
                 });
-                setTimeout(() => {
-                    $Toast.hide();
-                    this.isShowMask = false;
-                }, 1000);
+                $Toast.hide();
+                this.isShowMask = false;
             },
             onBuy() {
                 $Toast({
@@ -201,7 +205,7 @@
         }
         .content {
             background: white;
-            width: 7.125rem;
+            width: 100%;
             margin: .2rem auto;
             text-align: center;
             position: relative;
@@ -258,11 +262,24 @@
                 }
                 .detail-box {
                     margin: .15rem auto;
+                    .picture {
+                        margin: .1rem 0;
+                        img{
+                            height: 625rpx;
+                            width: 100%;
+                        }
+                    }
                     .detail-message {
                         width: 100%!important;
                     }
                 }
             }
+        }
+        .Tips{
+            padding: .2rem 0;
+            color: #495060;
+            font-weight: bold;
+            border: .03rem solid #eeeeee;
         }
         .product-bottom {
             display: flex;
@@ -273,26 +290,34 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 1.2rem;
+            height: 1.1rem;
             width: 100%;
-            background: #412d2d;
-            z-index: 1000;
+            background: #eeeeee;
+            border-top: 1px solid #d6c0c0;
+            z-index: 50;
             .collect {
-                display: table;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                justify-content: center;
                 font-size: .6rem;
                 width: 25%;
                 color: #38413d;
                 height: 100%;
-                border-right: 1px solid #c60023;
-                background: #f6fa16;
+                border-right: 1px solid #d6c0c0;
+                background: #ffffff;
+                img {
+                    height: .65rem;
+                    width: .7rem;
+                }
             }
             .buy {
                 display: table;
                 font-size: .5rem;
                 width: 75%;
                 height: 100%;
-                color: #ffffff;
-                background: #c0314b;
+                color: #b9374f;
+                background: #ffffff;
             }
             span {
                 display: table-cell;
@@ -303,7 +328,7 @@
             position: fixed;
             bottom: 1.3rem;
             right: .2rem;
-            z-index: 999;
+            z-index: 51;
             .back-icon {
                 position: relative;
                 top: -.05rem;
@@ -318,5 +343,9 @@
         bottom: 0;
         background: #412d2d;
         opacity: .3;
+        z-index: 50;
+    }
+    .hidden{
+        overflow: hidden;
     }
 </style>

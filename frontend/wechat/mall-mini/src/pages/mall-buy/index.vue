@@ -1,76 +1,24 @@
 <template>
     <div class="wrapper">
         <TopNav :isShowInput="false"/>
-        <div class="top">
-            <img class="top-img" src="../../../static/image/user-top.jpg" alt="">
-            <div class="square" :style="getAvatarUrl">
-            </div>
-            <div class="nick-name">ID: {{userInfo.nickName}}</div>
-        </div>
-        <div class="user-info">
-            <div class="form-line">
-                <span class="label">用户名：</span>
-                <span class="text">{{userInfo.username}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">电 话：</span>
-                <span class="text">{{userInfo.phone}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">邮 箱：</span>
-                <span class="text">{{userInfo.email}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">问 题：</span>
-                <span class="text">{{userInfo.question}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">答 案：</span>
-                <span class="text">{{userInfo.answer}}</span>
-            </div>
-            <i-toast id="toast" />
-        </div>
     </div>
 </template>
 
 <script>
-import { $Toast } from '../../../static/iView/base/index';
 import TopNav from '@/components/mall/top-nav.vue';
 export default {
     name: 'user_center',
     data() {
         return {
-            content: 'User-Center'
+            userInfo: {},
         };
     },
     components: {
         TopNav
     },
     computed: {
-        getAvatarUrl() {
-            if (this.userInfo) {
-                return 'background-image: url(' + this.userInfo.avatarUrl + ')';
-            }
-        },
-        userInfo() {
-            return this.$store.state.userInfo
-        }
     },
     mounted() {
-        console.log(this.$store.state.userInfo);
-        $Toast({
-            content: '加载用户信息中...',
-            type: 'loading',
-            duration: 0
-        });
-        if (this.$store.state.isLogin) {
-            $Toast.hide();
-        } else {
-            wx.navigateTo({
-                url: '/pages/mall-login/main'
-            });
-            $Toast.hide();
-        }
     }
 };
 </script>
@@ -79,14 +27,11 @@ export default {
 .wrapper{
     width: 100%;
     .top{
+        background: #ffffff;
         height: 5rem;
         width: 100%;
         margin-bottom: 1.3rem;
         box-shadow: 0 .03rem .1rem 0 #dfdede;
-        .top-img{
-            width: 100%;
-            height: 100%;
-        }
         .square{
             position: absolute;
             top: 4.5rem;
@@ -97,10 +42,6 @@ export default {
             background-repeat: no-repeat;
             background-size: cover;
             box-shadow: .05rem .08rem .2rem 0 #868686;
-        }
-        .nick-name{
-            text-align: center;
-            line-height: 3.5;
         }
     }
     .user-info{
@@ -117,6 +58,9 @@ export default {
             .label{
                 margin-left: .2rem;
             }
+        }
+        .btn-edit{
+            text-align: right;
         }
     }
 }

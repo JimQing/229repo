@@ -75,8 +75,8 @@
             display: inline-block;
             font-size: .35rem;
             background: #fcfcfc;
-            padding: .19rem;
-            margin: .04rem;
+            padding: .22rem;
+            margin-bottom: .03rem;
             .item-img {
                 display: block;
                 /* margin-top: .325rem; */
@@ -85,7 +85,16 @@
                 height: .6rem;
             }
             &:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
+                margin-top: .03rem;
+                margin-bottom: 0;
                 border-bottom: 1px solid #eeeeee;
+            }
+            &:nth-of-type(2), &:nth-of-type(6) {
+                border-left: 1px solid #eeeeee;
+            }
+            &:nth-of-type(3), &:nth-of-type(7) {
+                border-left: 1px solid #eeeeee;
+                border-right: 1px solid #eeeeee;
             }
         }
     }

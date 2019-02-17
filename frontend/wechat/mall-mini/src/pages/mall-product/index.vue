@@ -90,6 +90,7 @@
         display: flex;
         flex-flow: column nowrap;
         width: 95%;
+        margin-top: 2rem;
         .header-line {
             position: relative;
             width: 75%;

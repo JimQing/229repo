@@ -6,16 +6,17 @@ export default {
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     // 调用登录接口
-    wx.login({
-        success: () => {
-            wx.getUserInfo({
-                success: (res) => {
-                    this.$root.userInfo = res.userInfo;
-                    console.log('userInfo');
-                }
-            })
-        }
-    })
+    // wx.login({
+    //     success: (res) => {
+    //         console.log('login', res);
+    //         wx.getUserInfo({
+    //             success: (res) => {
+    //                 this.$root.userInfo = res.userInfo;
+    //                 console.log('userInfo', res);
+    //             }
+    //         })
+    //     }
+    // })
 
     console.log('app created and cache logs by setStorageSync')
   }

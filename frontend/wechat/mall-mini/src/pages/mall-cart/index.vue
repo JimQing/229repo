@@ -1,16 +1,67 @@
 <template>
     <div class="wrapper">
-        <TopNav :isShowInput="false"/>
+        <TopNav :isShowInput="false" :isShowBtn="true"/>
+        <!-- 按钮框 -->
+        <div class="btn-con">
+            <span @click="onAllCheck">{{isAllCheck ? '取消全选' : '全选商品'}}</span>
+            <span class="red-span">Cart</span>
+            <span @click="onShowDeleteModal">删除商品</span>
+        </div>
+        <div class="cart-box">
+            <div class="content" v-for="(product, index) in cartList" :key="index">
+                <div class="product-box" :id='product.productId'>
+                    <div class="desc">
+                        <img :src="imgHost + product.productMainImage" alt="">
+                        <span>{{product.productName}}</span>
+                        <span>{{'￥' + product.productTotalPrice}}</span>
+                    </div>
+                    <div class="opera" slot="content">
+                        <div class="price-box">
+                            <input type="checkbox" class="cart-select"
+                                :checked="isAllCheck || product.productChecked === 1"
+                                @click="onTapCheck(product.productId, product.productChecked === 1)"/>
+                            <span class="left-label">单价：￥{{product.productPrice}}</span>
+                        </div>
+                        <div class="opera-box">
+                            <span class="count-btn minus" @click="onChangeNum(product, 'minus')">-</span>
+                            <input class="count-input" :value="product.quantity" :data-max="product.productStock">
+                            <span class="count-btn plus" @click="onChangeNum(product, 'plus')">+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="total-box">
+            <div class="total">
+                <span>{{'总价：￥' + cartTotalPrice}}</span>
+            </div>
+            <div class="buy"><span>立即下单</span></div>
+        </div>
+        <i-modal title="删除确认"
+            :visible="isShowDelect"
+            @ok="onDelete"
+            @cancel="isShowDelect = false">
+            <div>确认要删除所选中的商品？</div>
+        </i-modal>
+        <i-toast id="toast"  @touchmove.stop="scrollStop" />
     </div>
 </template>
 
 <script>
 import TopNav from '@/components/mall/top-nav.vue';
+import _cart from '@/services/cart-service.js';
+import { $Toast } from '../../../static/iView/base/index';
 export default {
     name: 'user_center',
     data() {
         return {
             userInfo: {},
+            cartList: [],
+            cartTotalPrice: 0,
+            imgHost: 'http://onlineshoppingmall.xin:8082/',
+            isAllCheck: false,
+            isShowDelect: false,
+            checkedIds: []
         };
     },
     components: {
@@ -18,7 +69,116 @@ export default {
     },
     computed: {
     },
+    methods: {
+        onCheckCtrol() {
+            if (this.isAllCheck) {
+                this.isAllCheck = false;
+                return;
+            }
+        },
+        onTapCheck(id, isChecked) {
+            if (isChecked) {
+                _cart.unSelectProduct(id).then(res=> {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    const index = this.checkedIds.indexOf(id);
+
+                    if (index > -1) {
+                        this.checkedIds.splice(index, 1);
+                    }
+                });
+            } else {
+                _cart.selectProduct(id).then(res=> {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    this.checkedIds.push(id);
+                });
+            }
+        },
+        onAllCheck() {
+            if (this.isAllCheck) {
+                _cart.unSelectAll().then(res=> {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    this.checkedIds = [];
+                });
+            } else {
+                _cart.selectAll().then(res=> {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    this.cartList.forEach(element=> {
+                        if(element.productChecked === 1) {
+                            this.checkedIds.push(element.productId);
+                        }
+                    });
+                });
+            }
+        },
+        onShowDeleteModal() {
+            if (this.checkedIds.length > 0){
+                this.isShowDelect = true;
+            } else {
+                $Toast({
+                    content: '未选中任何商品'
+                });
+            }
+        },
+        onDelete() {
+            if (this.checkedIds.length > 0){
+                _cart.delete(this.checkedIds.join(',')).then(res=> {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    this.checkedIds = [];
+                });
+                this.isShowDelect = false;
+            } else {
+                $Toast({
+                    content: '未选中任何商品，请选择商品后重试'
+                });
+            }
+        },
+        onChangeNum(product, type) {
+            if (type === 'plus') {
+                if (product.quantity >= product.productStock) {
+                    $Toast({
+                        content: '该商品数量已达到上限'
+                    });
+                    return;
+                }
+                product.quantity++;
+            } else if (type === 'minus') {
+                if (product.quantity <= 1) {
+                    return;
+                }
+                product.quantity--;
+            }
+            _cart.update({
+                productId: product.productId,
+                count: product.quantity
+            }).then(res=> {
+                this.cartList = res.data.cartProductVoList;
+                this.cartTotalPrice = res.data.cartTotalPrice;
+            });
+        }
+    },
     mounted() {
+        _cart.getCartList().then(res=> {
+            if (res.data.cartProductVoList && res.data.cartProductVoList.length > 0) {
+                this.cartList = res.data.cartProductVoList;
+                this.isAllCheck = res.data.allChecked;
+                this.cartTotalPrice = res.data.cartTotalPrice;
+                this.cartList.forEach(element=> {
+                    if(element.productChecked === 1) {
+                        this.checkedIds.push(element.productId);
+                    }
+                });
+            }
+        });
     }
 };
 </script>
@@ -26,41 +186,152 @@ export default {
 <style lang='less' scoped>
 .wrapper{
     width: 100%;
-    .top{
-        background: #ffffff;
-        height: 5rem;
+    .content{
         width: 100%;
-        margin-bottom: 1.3rem;
-        box-shadow: 0 .03rem .1rem 0 #dfdede;
-        .square{
-            position: absolute;
-            top: 4.5rem;
-            left: .5rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            background-image: url(data:image/jpeg;base64,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);
-            background-repeat: no-repeat;
-            background-size: cover;
-            box-shadow: .05rem .08rem .2rem 0 #868686;
-        }
-    }
-    .user-info{
-        width: 85%;
-        margin: 0 auto;
-        .form-line{
-            height: 1rem;
-            line-height: 1rem;
-            font-size: .36rem;
-            margin-bottom: .08rem;
-            border-bottom: 1px solid #dfdede;
-            background: ghostwhite;
-            box-shadow: 0 .03rem .08rem 0 #dfdede;
-            .label{
-                margin-left: .2rem;
+        .product-box{
+            width: 95%;
+            margin: 0 auto;
+            margin-bottom: .2rem;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 0.08rem;
+            .desc{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 95%;
+                margin: .35rem auto;
+                padding-bottom: .35rem;
+                border-bottom: 1px solid #eeeeee;
+                img{
+                    height: 1.2rem;
+                    width: 3rem;
+                    margin: 0 .1rem;
+                }
+                span:nth-of-type(1) {
+                    font-size: .3rem;
+                    text-align: left;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    overflow: hidden;
+                }
+                span:nth-of-type(2) {
+                    width: 1.3rem;
+                    margin-right: .2rem;
+                    color: #b1acac;
+                }
+            }
+            .opera{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 93%;
+                margin: .25rem auto;
+                .price-box{
+                    color: #b1acac;
+                    font-size: .33rem;
+                    vertical-align: middle;
+                    .cart-select{
+                        position: relative;
+                        top: -.05rem;
+                    }
+                }
+                .opera-box{
+                    .left-label{
+                        line-height: 56rpx;
+                        color: #333;
+                        margin-left: .4rem;
+                    }
+                    .count-input{
+                        display: inline-block;
+                        width: 120rpx;
+                        height: 56rpx;
+                        line-height: 56rpx;
+                        border: 1rpx solid #ddd;
+                        margin: 0 .2rem;
+                        text-align: center;
+                        vertical-align: middle;
+                        outline: none;
+                        color: #333;
+                    }
+                    .count-btn{
+                        display: inline-block;
+                        width: 65rpx;
+                        height: 56rpx;
+                        line-height: 53rpx;
+                        border: 1rpx solid #ddd;
+                        vertical-align: middle;
+                        text-align: center;
+                        cursor: pointer;
+                        background: #fff;
+                        -moz-user-select: none;
+                        -webkit-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                    }
+                }
             }
         }
-        .btn-edit{
-            text-align: right;
+    }
+    .cart-box{
+        margin-top: .3rem;
+    }
+    .btn-con{
+        display: flex;
+        width: 100%;
+        margin-top: 1.2rem;
+        background: #fcffff;
+        justify-content: space-between;
+        span {
+            color: #333;
+            font-size: .34rem;
+            padding: .25rem .2rem;
+        }
+        .red-span{
+            font-weight: 700;
+            color: #c60023;
+        }
+    }
+    .total-box {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1.1rem;
+        width: 100%;
+        background: #eeeeee;
+        z-index: 50;
+        .total {
+            display: table;
+            text-align: left;
+            font-size: .4rem;
+            width: 60%;
+            color: #adaaaa;
+            height: 100%;
+            border-right: 1px solid #d6c0c0;
+            background: #ffffff;
+            span{
+                padding-left: .1rem;
+            }
+        }
+        .buy {
+            display: table;
+            text-align: center;
+            font-size: .45rem;
+            width: 40%;
+            height: 100%;
+            color: #ffffff;
+            background: #b9374f;
+        }
+        span {
+            display: table-cell;
+            vertical-align: middle;
         }
     }
 }

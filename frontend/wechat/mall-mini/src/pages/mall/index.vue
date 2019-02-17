@@ -4,12 +4,11 @@
         <div class="box">
             <div class="box-header">Mall - mini</div>
             <div class="search-con">
-                <input v-model="content" class="search-input" id="search-input" placeholder="请输入您想要搜索的商品！"
-                    @confirm="onShow">
+                <input v-model="content" class="search-input" id="search-input" placeholder="请输入您想要搜索的商品！" @confirm="onShow">
             </div>
             <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
                 <i-avatar class="back-avatar" shape="square" size="large">
-                    <i-icon type="packup" class="back-icon" color="#ffffff" size="32"/>
+                    <i-icon type="packup" class="back-icon" color="#ffffff" size="32" />
                 </i-avatar>
             </div>
             <Banner></Banner>
@@ -18,6 +17,18 @@
             <BottomNav></BottomNav>
             <i-button class="more-btn" type="ghost" @click="handleText">更多精彩...</i-button>
         </div>
+        <div class="window" v-if="isShowWindow" @touchmove.stop="scrollStop">
+            <p>注意：本小程序商城仅用于个人自学作品的演示！所有商品均为虚拟商品，且不会有真实交易产生！</p>
+            <i-button class="more-btn" type="ghost" @click="closeWindow">了解并使用</i-button>
+        </div>
+        <div class="mask" v-if="isShowWindow" @touchmove.stop="scrollStop"></div>
+        <!-- <div class="auth-page">
+            <p>Mall 商城 - 欢迎您的使用</p>
+            <button class="auth-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">
+                获取用户信息
+            </button>
+            <button class="auth-btn" open-type="openSetting">打开授权设置页</button>
+        </div> -->
     </div>
 </template>
 
@@ -26,12 +37,14 @@
     import BottomNav from '@/components/mall/bottom-nav.vue';
     import Guide from '@/components/mall/guide.vue';
     import Product from '@/components/mall/product.vue';
-    import { $Toast } from '../../../static/iView/base/index';
+    import _user from '@/services/user-service.js';
+    import {
+        $Toast
+    } from '../../../static/iView/base/index';
     export default {
         data() {
             return {
                 content: '',
-                userInfo: {},
                 scrollPos: '',
                 isBottom: false,
                 isShowBack: false,
@@ -44,8 +57,30 @@
                 }
             }
         },
-        components: { Banner, Guide , Product, BottomNav },
+        computed: {
+            isShowWindow() {
+                return this.$store.state.isShowWindow;
+            }
+        },
+        components: {
+            Banner,
+            Guide,
+            Product,
+            BottomNav
+        },
         methods: {
+            getLoginInfo() {
+                // 获取用户信息
+                wx.login({
+                    success: () => {
+                        wx.getUserInfo({
+                            success: res=> {
+                                this.$store.commit('USER_INFO', Object.assign(res.userInfo, this.$store.state.userInfo));
+                            }
+                        })
+                    }
+                });
+            },
             jumpToTop() {
                 if (wx.pageScrollTo) {
                     wx.pageScrollTo({
@@ -63,7 +98,14 @@
                 wx.navigateTo({
                     url: '../mall-product/main?content=' + this.content
                 })
-            }
+            },
+            closeWindow() {
+                this.$store.commit('TIPS', false);
+            },
+            onGotUserInfo(e) {
+                console.log('onGotUserInfo', e);
+            },
+            scrollStop() {}
         },
         // 获取滚动条当前位置
         onPageScroll(e) {
@@ -73,8 +115,22 @@
         // 上拉加载回调接口
         onReachBottom() {
             this.isBottom = !this.isBottom;
+        },
+        mounted() {
+            this.getLoginInfo();
+            // 后门
+            _user.login({
+                username: 'jimqing',
+                password: '123456'
+            }).then(res=> {
+                if (res.status === 0) {
+                    this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
+                    this.$store.commit('USER_STATES', true);
+                }
+            });
         }
     }
+
 </script>
 
 <style lang="less" scoped>
@@ -84,12 +140,14 @@
         width: 7.5rem;
         text-align: center;
     }
+
     .box {
         display: flex;
         flex-flow: column nowrap;
         width: 95%;
         margin: 0 auto;
         margin-top: 2rem;
+
         .box-header {
             position: fixed;
             top: 0;
@@ -106,11 +164,13 @@
             border-bottom: 1px solid #edf2f7;
             z-index: 20;
         }
-        .search-con{
+
+        .search-con {
             position: fixed;
             top: 1.39rem;
             width: 95%;
             z-index: 20;
+
             .search-input {
                 margin: 0 auto;
                 height: .5rem;
@@ -122,18 +182,71 @@
                 outline: none;
             }
         }
+
         .back {
             position: fixed;
             bottom: 1.3rem;
             right: .3rem;
             z-index: 999;
+
             .back-icon {
                 position: relative;
                 top: -.05rem;
             }
         }
-        .more-btn{
+
+        .more-btn {
             margin-bottom: 1rem;
         }
     }
+    .window{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #495060;
+        font-weight: bold;
+        background: white;
+        width: 6rem;
+        margin: .2rem auto;
+        padding: .3rem .35rem;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        border: 1px solid #eeeeee;
+        border-radius: .08rem;
+        z-index: 51;
+        p {
+            margin-top: .15rem;
+        }
+    }
+        
+    .auth-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background: #fcfcfc;
+        z-index: 999;
+        p {
+            margin-top: 2rem;
+            .auth-btn{
+                width: 80%;
+                margin: 0 auto;
+                margin-top: 2rem;
+            }
+        }
+    }
+
+    .mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #412d2d;
+        opacity: .3;
+        z-index: 50;
+    }
+
 </style>

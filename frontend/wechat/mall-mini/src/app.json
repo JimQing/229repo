@@ -1,13 +1,13 @@
 {
     "pages": [
         "pages/mall/main",
-        "pages/mall-login/main",
-        "pages/mall-register/main",
-        "pages/index/main",
-        "pages/mall-user-center/main",
-        "pages/logs/main",
+        "pages/mall-cart/main",
         "pages/mall-product-detail/main",
-        "pages/mall-product/main"
+        "pages/mall-register/main",
+        "pages/mall-user-center/main",
+        "pages/mall-login/main",
+        "pages/mall-product/main",
+        "pages/logs/main"
     ],
     "window": {
         "backgroundTextStyle": "light",

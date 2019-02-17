@@ -19,13 +19,13 @@
                     color="#80848f"
                 />
             </span>
-            <i-input
+            <input
                 class="p-input"
-                :value="userName"
+                v-model="username"
                 placeholder="请输入用户名"
                 @blur="checkOutUser"
                 autofocus
-            ></i-input>
+            ></input>
         </i-panel>
         <i-panel class="panel-box">
             <span class="p-label">
@@ -36,15 +36,18 @@
                     color="#80848f"
                 />
             </span>
-            <i-input
+            <input
                 class="p-input"
-                :value="password"
+                type="password"
+                v-model="password"
                 placeholder="请输入密码"
-                type="number"
-            ></i-input>
+            ></input>
         </i-panel>
         <div class="simple-btn login" @click="onSubmit">
             <span>登录</span>
+        </div>
+        <div class="simple-btn register" @click="onRedirect('mall-register')">
+            <span>没有账户？去注册~</span>
         </div>
         <div class="desc">
         </div>
@@ -55,12 +58,12 @@
 <script>
 import { $Toast } from '../../../static/iView/base/index';
 import TopNav from '@/components/mall/top-nav.vue';
+import _user from '@/services/user-service.js';
 export default {
     name: 'user_login',
     data() {
         return {
-            userInfo: {},
-            userName: '',
+            username: '', // 测试号 jimqing 123456
             password: '',
             loading: false,
             content: 'User-Login'
@@ -107,21 +110,34 @@ export default {
                 return;
             }
             // 提交
+            _user.login({
+                username: this.username,
+                password: this.password
+            }).then(res=> {
+                if (res.status === 0) {
+                    setTimeout(() => {
+                        $Toast.hide();
+                        $Toast({
+                            content: '登录成功'
+                        });
+                        this.$store.commit('USER_INFO', res.data);
+                        this.$store.commit('USER_STATES', true);
+                        wx.navigateBack();
+                    }, 2000);
+                } else {
+                    $Toast.hide();
+                    $Toast({
+                        content: res.msg
+                    });
+                }
+            });
             $Toast({
                 content: '登录中...',
                 duration: 0
             });
-            setTimeout(() => {
-                $Toast.hide();
-                $Toast({
-                    content: '登录成功'
-                });
-                this.onRedirect('mall');
-            }, 2000);
         }
     },
     mounted() {
-        // this.userInfo = this.$store.state.userInfo
     }
 };
 </script>
@@ -161,10 +177,10 @@ export default {
 }
 .p-input{
     display: inline-block;
-    position: relative;
-    right: 0;
-    width: 80%;
-    text-align: right;
+    padding-left: .2rem;
+    width: 75%;
+    font-size: .32rem;
+    vertical-align: middle;
     background: #fcfcfc;
 }
 .code{
@@ -191,6 +207,9 @@ export default {
     }
 }
 .login{
-    background: #c60023;
+    background: #19BE6B;
+}
+.register{
+    background: #22be70
 }
 </style>

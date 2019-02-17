@@ -6,9 +6,9 @@
         <div class="home-btn" @click="toHome">
             <i-icon type="homepage_fill" class="btn-icon" size="26"/>
         </div>
-        <div class="box-header">Mall - mini</div>
+        <div :class="isShowInput ? 'box-header normal' : 'box-header no-input'">Mall - mini</div>
         <!-- 搜索框 -->
-        <div class="search-con" v-show="isShowInput">
+        <div class="search-con" v-if="isShowInput">
             <input v-model="content" class="search-input" id="search-input" :placeholder="keyword || '请输入搜索关键字哦~~'"
                 @confirm="onShow">
         </div>
@@ -29,7 +29,7 @@
             },
             isShowInput: {
                 type: Boolean,
-                default: 'true'
+                default: true
             }
         },
         methods: {
@@ -56,7 +56,7 @@
 <style lang="less" scoped>
     .top-nav{
         /* box-shadow: 0 .02rem .03rem 0 #eeeeee; */
-        box-shadow: .05rem .04rem .2rem 0 #bdbdbd;
+        /* box-shadow: .05rem .04rem .2rem 0 #bdbdbd; */
     }
     .return-btn {
         position: fixed;
@@ -87,27 +87,37 @@
         top: 0;
         left: 0;
         right: 0;
-        background: #fcfcfc;
-        padding-top: 55rpx;
         height: .68rem;
+        background: #fcfcfc;
         font-size: .48rem;
         font-weight: 700;
-        border-bottom: 1px solid #edf2f7;
         color: #c60023;
         text-align: center;
         text-decoration: none;
-        z-index: 998;
+        /* border-bottom: 1px solid #edf2f7; */
+        z-index: 20;
     }
-    .search-input {
+    .normal {
+        padding: .55rem 0 .8rem .25rem;
+    }
+    .no-input{
+        padding-top: .55rem;
+        padding-bottom: .05rem;
+    }
+    .search-con{
+        position: fixed;
+        top: 1.39rem;
         width: 95%;
-        margin: 0 auto;
-        height: .5rem;
-        margin-top: 1.32rem;
-        line-height: .4rem;
-        font-size: .3rem;
-        border: 1px solid #c60023;
-        border-radius: 7px;
-        background: #ffffff;
-        outline: none;
+        z-index: 20;
+        .search-input {
+            margin: 0 auto;
+            height: .5rem;
+            line-height: .4rem;
+            font-size: .3rem;
+            border: 1px solid #c60023;
+            border-radius: 7px;
+            background: #ffffff;
+            outline: none;
+        }
     }
 </style>

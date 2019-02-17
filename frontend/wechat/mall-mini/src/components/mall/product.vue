@@ -105,7 +105,6 @@
         margin: .2rem auto;
         text-align: center;
         position: relative;
-        overflow: hidden;
         border: 1px solid #eeeeee;
         border-radius: .08rem;
     }
@@ -145,6 +144,7 @@
             border: 1px solid #ebecee;
             box-sizing: border-box;
             margin-top: 12rpx;
+            margin-bottom:5rpx;
             color: #18314F;
             .item-img {
                 background: no-repeat ghostwhite;
@@ -169,22 +169,22 @@
             }
             .content {
                 width: 95%;
-                height: 17%;
+                /* height: 17%; */
                 color: #666;
                 text-align: left;
                 font-size: 22rpx;
-                overflow: hidden;
-                display: -webkit-box;
+                margin-bottom: 12rpx;
+                /* display: -webkit-box;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 3;
+                -webkit-line-clamp: 3; */
                 text-decoration: none;
             }
         }
 
         .item__content--medium {
-            height: 5.05rem;
+            /* height: 5.05rem; */
             .item-img {
-                height: 73%;
+                height: 4rem;
             }
             .content {
                 position: relative;
@@ -193,9 +193,9 @@
         }
 
         .item__content--large {
-            height: 5.30rem;
+            /* height: 5.30rem; */
             .item-img {
-                height: 73%;
+                height: 4rem;
             }
             .content {
                 position: relative;

@@ -16,6 +16,11 @@ const product = {
                 productId : productId
             }
         });
+    },
+    getCartList() {
+        return request({
+            url     : baseUrl + '/cart/list.do'
+        });
     }
 };
 
