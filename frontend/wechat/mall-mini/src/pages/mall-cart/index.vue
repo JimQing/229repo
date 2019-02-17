@@ -11,7 +11,9 @@
             <div class="content" v-for="(product, index) in cartList" :key="index">
                 <div class="product-box" :id='product.productId'>
                     <div class="desc">
-                        <img :src="imgHost + product.productMainImage" alt="">
+                        <div class="img-box">
+                            <img :src="imgHost + product.productMainImage" alt="">
+                        </div>
                         <span>{{product.productName}}</span>
                         <span>{{'￥' + product.productTotalPrice}}</span>
                     </div>
@@ -37,6 +39,7 @@
             </div>
             <div class="buy"><span>立即下单</span></div>
         </div>
+        <BackBtn v-if="isShowBack"/>
         <i-modal title="删除确认"
             :visible="isShowDelect"
             @ok="onDelete"
@@ -49,6 +52,7 @@
 
 <script>
 import TopNav from '@/components/mall/top-nav.vue';
+import BackBtn from '@/components/mall/to-top-btn.vue';
 import _cart from '@/services/cart-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 export default {
@@ -61,11 +65,13 @@ export default {
             imgHost: 'http://onlineshoppingmall.xin:8082/',
             isAllCheck: false,
             isShowDelect: false,
+            isShowBack: false,
             checkedIds: []
         };
     },
     components: {
-        TopNav
+        TopNav,
+        BackBtn
     },
     computed: {
     },
@@ -179,6 +185,12 @@ export default {
                 });
             }
         });
+    },
+    // 获取滚动条当前位置
+    onPageScroll(e) {
+        setTimeout(() => {
+            this.isShowBack = e.scrollTop > 250;
+        }, 100);
     }
 };
 </script>
@@ -204,10 +216,14 @@ export default {
                 margin: .35rem auto;
                 padding-bottom: .35rem;
                 border-bottom: 1px solid #eeeeee;
-                img{
-                    height: 1.2rem;
-                    width: 3rem;
+                .img-box{
+                    height: 120rpx;
+                    min-width: 120rpx;
                     margin: 0 .1rem;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
                 span:nth-of-type(1) {
                     font-size: .3rem;
@@ -277,6 +293,7 @@ export default {
     }
     .cart-box{
         margin-top: .3rem;
+        margin-bottom: 1.3rem;
     }
     .btn-con{
         display: flex;

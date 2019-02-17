@@ -52,6 +52,8 @@
     import TopNav from '@/components/mall/top-nav.vue';
     import _product from '@/services/product-service.js';
     import { $Toast } from '../../../static/iView/base/index';
+    import _cart from '@/services/cart-service.js';
+import { fail } from 'assert';
     export default {
         data() {
             return {
@@ -63,6 +65,7 @@
                 isShowMask: false,
                 isBottom: false,
                 isShowBack: false,
+                isCollect: false,
                 bannerHeight: '650rpx'
             };
         },
@@ -113,23 +116,25 @@
                 this.isShowMask = false;
             },
             onBuy() {
-                $Toast({
-                    content: '购买功能暂未开通！'
-                });
+                if (!this.isCollect) {
+                    _cart.addToCart(this.id).then(res=> {
+                        this.isCollect = true;
+                        wx.navigateTo({
+                            url: '/pages/mall-cart/main'
+                        })
+                    });
+                } else {
+                    wx.navigateTo({
+                        url: '/pages/mall-cart/main'
+                    });
+                }
             },
             onCollect() {
-                $Toast({
-                    content: '收藏功能暂未开通！'
-                });
-            },
-            toBack() {
-                wx.navigateBack({
-                    delta: 1, // 回退前 delta(默认为1) 页面
-                });
-            },
-            toHome() {
-                wx.reLaunch({
-                    url: '../mall/main'
+                _cart.addToCart(this.id).then(res=> {
+                    $Toast({
+                        content: '您的商品已成功添加到购物车~'
+                    });
+                    this.isCollect = true;
                 });
             }
         },

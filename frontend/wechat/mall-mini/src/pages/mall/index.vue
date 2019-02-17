@@ -6,11 +6,12 @@
             <div class="search-con">
                 <input v-model="content" class="search-input" id="search-input" placeholder="请输入您想要搜索的商品！" @confirm="onShow">
             </div>
-            <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
+            <!-- <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
                 <i-avatar class="back-avatar" shape="square" size="large">
                     <i-icon type="packup" class="back-icon" color="#ffffff" size="32" />
                 </i-avatar>
-            </div>
+            </div> -->
+            <BackBtn v-if="isShowBack"/>
             <Banner></Banner>
             <Guide></Guide>
             <Product :atBottom="isBottom" :productTitle="productTitle" :productInfo="product"></Product>
@@ -34,6 +35,7 @@
 
 <script>
     import Banner from '@/components/mall/banner.vue';
+    import BackBtn from '@/components/mall/to-top-btn.vue';
     import BottomNav from '@/components/mall/bottom-nav.vue';
     import Guide from '@/components/mall/guide.vue';
     import Product from '@/components/mall/product.vue';
@@ -45,7 +47,6 @@
         data() {
             return {
                 content: '',
-                scrollPos: '',
                 isBottom: false,
                 isShowBack: false,
                 productTitle: '花样生活',
@@ -66,7 +67,8 @@
             Banner,
             Guide,
             Product,
-            BottomNav
+            BottomNav,
+            BackBtn
         },
         methods: {
             getLoginInfo() {
@@ -80,19 +82,6 @@
                         })
                     }
                 });
-            },
-            jumpToTop() {
-                if (wx.pageScrollTo) {
-                    wx.pageScrollTo({
-                        scrollTop: 0
-                    });
-                    this.isShowBack = false;
-                } else {
-                    wx.showModal({
-                        title: '提示',
-                        content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-                    })
-                }
             },
             onShow() {
                 wx.navigateTo({
@@ -109,8 +98,9 @@
         },
         // 获取滚动条当前位置
         onPageScroll(e) {
-            this.isShowBack = e.scrollTop > 250;
-            this.scrollPos = e.scrollTop;
+            setTimeout(() => {
+                this.isShowBack = e.scrollTop > 250;
+            }, 100);
         },
         // 上拉加载回调接口
         onReachBottom() {

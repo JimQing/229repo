@@ -9,10 +9,9 @@ const Cart = {
         });
     },
     // 添加到购物车
-    addToCart(params) {
+    addToCart(productId) {
         return request({
-            url     : baseUrl + '/cart/add.do',
-            data    : params
+            url     : baseUrl + '/cart/add.do?productId=' + productId + '&count=1'
         });
     },
     // 获取购物车数量

@@ -40,13 +40,12 @@
             },
             toHome() {
                 wx.reLaunch({
-                    url: '../mall/main'
+                    url: '/pages/mall/main'
                 });
             },
             onShow() {
-                console.log(this.content);
                 wx.navigateTo({
-                    url: '../mall-product/main?content=' + this.content
+                    url: '/pages/mall-product/main?content=' + this.content
                 })
             }
         }
