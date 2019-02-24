@@ -2,12 +2,14 @@
     "pages": [
         "pages/mall/main",
         "pages/mall-cart/main",
+        "pages/mall-address/main",
+        "pages/mall-buy/main",
+        "pages/mall-order/main",
         "pages/mall-product-detail/main",
         "pages/mall-register/main",
         "pages/mall-user-center/main",
         "pages/mall-login/main",
-        "pages/mall-product/main",
-        "pages/logs/main"
+        "pages/mall-product/main"
     ],
     "window": {
         "backgroundTextStyle": "light",

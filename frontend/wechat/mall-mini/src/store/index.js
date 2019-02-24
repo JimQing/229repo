@@ -10,7 +10,8 @@ const state = {
     userInfo: {},
     isLogin: false,
     isShowWindow: true,
-    cookie: ''
+    cookie: '',
+    addressId: 0
 };
 
 export default new Vuex.Store({

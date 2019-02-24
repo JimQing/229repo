@@ -37,7 +37,7 @@
             <div class="total">
                 <span>{{'总价：￥' + cartTotalPrice}}</span>
             </div>
-            <div class="buy"><span>立即下单</span></div>
+            <div class="buy" @click="onRedirect('mall-buy')"><span>立即下单</span></div>
         </div>
         <BackBtn v-if="isShowBack"/>
         <i-modal title="删除确认"
@@ -170,6 +170,17 @@ export default {
                 this.cartList = res.data.cartProductVoList;
                 this.cartTotalPrice = res.data.cartTotalPrice;
             });
+        },
+        onRedirect(path) {
+            if (this.checkedIds.length > 0){
+                wx.navigateTo({
+                    url: '/pages/' + path + '/main'
+                });
+            } else {
+                $Toast({
+                    content: '未选中任何商品，请选择商品后重试'
+                });
+            }
         }
     },
     mounted() {

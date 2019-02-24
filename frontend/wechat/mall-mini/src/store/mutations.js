@@ -2,6 +2,7 @@ import {
     USER_INFO,
     USER_STATES,
     TIPS,
+    SELECT_ADDRESS,
     SET_COOKIES
 } from './mutation-types.js';
 
@@ -17,5 +18,8 @@ export default {
     },
     [SET_COOKIES] (state, v) {
         state.cookie = v;
+    },
+    [SELECT_ADDRESS] (state, v) {
+        state.addressId = v;
     }
 }

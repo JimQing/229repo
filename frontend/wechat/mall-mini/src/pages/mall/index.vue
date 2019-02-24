@@ -6,11 +6,6 @@
             <div class="search-con">
                 <input v-model="content" class="search-input" id="search-input" placeholder="请输入您想要搜索的商品！" @confirm="onShow">
             </div>
-            <!-- <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
-                <i-avatar class="back-avatar" shape="square" size="large">
-                    <i-icon type="packup" class="back-icon" color="#ffffff" size="32" />
-                </i-avatar>
-            </div> -->
             <BackBtn v-if="isShowBack"/>
             <Banner></Banner>
             <Guide></Guide>
@@ -23,13 +18,6 @@
             <i-button class="more-btn" type="ghost" @click="closeWindow">了解并使用</i-button>
         </div>
         <div class="mask" v-if="isShowWindow" @touchmove.stop="scrollStop"></div>
-        <!-- <div class="auth-page">
-            <p>Mall 商城 - 欢迎您的使用</p>
-            <button class="auth-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">
-                获取用户信息
-            </button>
-            <button class="auth-btn" open-type="openSetting">打开授权设置页</button>
-        </div> -->
     </div>
 </template>
 
@@ -108,16 +96,20 @@
         },
         mounted() {
             this.getLoginInfo();
+        },
+        created() {
             // 后门
-            _user.login({
-                username: 'jimqing',
-                password: '123456'
-            }).then(res=> {
-                if (res.status === 0) {
-                    this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
-                    this.$store.commit('USER_STATES', true);
-                }
-            });
+            if (!this.$store.state.isLogin) {
+                _user.login({
+                    username: 'jimqing',
+                    password: '123456'
+                }).then(res=> {
+                    if (res.status === 0) {
+                        this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
+                        this.$store.commit('USER_STATES', true);
+                    }
+                });
+            }
         }
     }
 

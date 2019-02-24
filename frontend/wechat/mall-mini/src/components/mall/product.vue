@@ -2,8 +2,8 @@
     <div class="wrapper">
         <div class="box">
             <HTitle :headerText="productTitle"></HTitle>
-            <div class="product-flow">
-                <div v-if="isShowProduct" class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
+            <div class="product-flow"  v-if="isShowProduct">
+                <div class="product-column" v-for="(arr, fIndex) in waterflow" :key="fIndex">
                     <div class="item" v-for="(items, index) in productList" :key="index">
                         <div
                         v-if="index%2 === 0 && fIndex === 0"

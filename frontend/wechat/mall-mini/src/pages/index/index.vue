@@ -39,10 +39,10 @@
 
         methods: {
             bindViewTap() {
-                const url = '../logs/main'
-                wx.navigateTo({
-                    url
-                })
+                // const url = '../logs/main'
+                // wx.navigateTo({
+                //     url
+                // })
             },
             clickHandle(msg, ev) {
                 console.log('clickHandle:', msg, ev)
