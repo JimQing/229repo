@@ -184,6 +184,12 @@ export default {
         }
     },
     mounted() {
+        if (!this.$store.state.isLogin) {
+            wx.navigateTo({
+                url: '/pages/mall-login/main'
+            });
+            return;
+        }
         _cart.getCartList().then(res=> {
             if (res.data.cartProductVoList && res.data.cartProductVoList.length > 0) {
                 this.cartList = res.data.cartProductVoList;
@@ -310,7 +316,7 @@ export default {
         display: flex;
         width: 100%;
         margin-top: 1.2rem;
-        background: #fcffff;
+        background: #fcfcfc;
         justify-content: space-between;
         span {
             color: #333;

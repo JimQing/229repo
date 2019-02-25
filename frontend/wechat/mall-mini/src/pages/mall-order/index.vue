@@ -39,7 +39,6 @@
 <script>
 import _user from '@/services/user-service.js';
 import _order from '@/services/order-service.js';
-import _address from '@/services/address-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 import TopNav from '@/components/mall/top-nav.vue';
 export default {
@@ -58,6 +57,10 @@ export default {
     },
     methods: {
         init() {
+            this.orderNo = this.$root.$mp.query.orderNo;
+            if (!this.orderNo) {
+                $Toast('订单参数错误！');
+            }
             _order.getOrderDetail(this.orderNo).then(res=> {
                 this.orderInfo = res.data;
                 this.orderList = res.data.orderItemVoList;
@@ -81,7 +84,6 @@ export default {
         }
     },
     mounted() {
-        this.orderNo = this.$root.$mp.query.orderNo;
         this.init();
         console.log('orderNo', this.orderNo);
     }
@@ -94,7 +96,7 @@ export default {
         display: flex;
         width: 100%;
         margin-top: 1.2rem;
-        background: #fcffff;
+        background: #fcfcfc;
         justify-content: center;
         span {
             color: #333;

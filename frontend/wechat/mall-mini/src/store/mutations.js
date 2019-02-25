@@ -3,6 +3,7 @@ import {
     USER_STATES,
     TIPS,
     SELECT_ADDRESS,
+    ADDRESS_LIST,
     SET_COOKIES
 } from './mutation-types.js';
 
@@ -21,5 +22,8 @@ export default {
     },
     [SELECT_ADDRESS] (state, v) {
         state.addressId = v;
+    },
+    [ADDRESS_LIST] (state, v) {
+        state.addressList = v;
     }
 }

@@ -53,13 +53,12 @@
 </template>
 
 <script>
-import _user from '@/services/user-service.js';
 import _order from '@/services/order-service.js';
 import _address from '@/services/address-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 import TopNav from '@/components/mall/top-nav.vue';
 export default {
-    name: 'order',
+    name: 'buy',
     data() {
         return {
             orderList: [],
@@ -85,7 +84,8 @@ export default {
             });
             _address.getAddressList().then(res=> {
                 console.log(res);
-                this.addressList = res.data.list
+                this.addressList = res.data.list;
+                this.$store.commit('ADDRESS_LIST', this.addressList);
             });
         },
         submit() {
@@ -110,7 +110,7 @@ export default {
         display: flex;
         width: 100%;
         margin-top: 1.2rem;
-        background: #fcffff;
+        background: #fcfcfc;
         justify-content: center;
         span {
             color: #333;

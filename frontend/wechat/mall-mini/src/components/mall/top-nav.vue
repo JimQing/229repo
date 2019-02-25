@@ -30,10 +30,18 @@
             isShowInput: {
                 type: Boolean,
                 default: true
+            },
+            isLoginPage: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
             toBack() {
+                if (this.isLoginPage) {
+                    this.toHome();
+                    return;
+                }
                 wx.navigateBack({
                     delta: 1, // 回退前 delta(默认为1) 页面
                 });

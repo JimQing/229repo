@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <TopNav :isShowInput="false"/>
+        <TopNav :isShowInput="false" :isLoginPage="true"/>
         <div class="title">
             <i-icon 
                 type="addressbook_fill" 
@@ -25,7 +25,7 @@
                 placeholder="请输入用户名"
                 @blur="checkOutUser"
                 autofocus
-            ></input>
+            />
         </i-panel>
         <i-panel class="panel-box">
             <span class="p-label">
@@ -41,7 +41,7 @@
                 type="password"
                 v-model="password"
                 placeholder="请输入密码"
-            ></input>
+            />
         </i-panel>
         <div class="simple-btn login" @click="onSubmit">
             <span>登录</span>

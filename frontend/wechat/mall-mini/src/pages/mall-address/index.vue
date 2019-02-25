@@ -3,7 +3,19 @@
         <TopNav :isShowInput="false" :isShowBtn="true"/>
         <!-- 按钮框 -->
         <div class="btn-con">
-            <span class="red-span">选择地址</span>
+            <span class="red-span">我的收货地址</span>
+        </div>
+        <div class="address-item" v-for="(item, index) in addressList" :key="index">
+            <div class="left">
+                <p>{{item.receiverAddress}}&ensp;&ensp;{{item.receiverCity}}&ensp;&ensp;{{item.receiverProvince}}</p>
+                <span>{{item.receiverName}} </span><span>{{item.receiverPhone}}</span>
+            </div>
+            <div class="right" @click="onRedirect('mall-address-config', index)">
+                <i-icon type="editor" size="26"/>
+            </div>
+        </div>
+        <div class="btn-bottom" @click="onRedirect('mall-address-config')">
+            <span>+ 新增收货地址</span>
         </div>
         <BackBtn v-if="isShowBack"/>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
@@ -11,26 +23,31 @@
 </template>
 
 <script>
+import _user from '@/services/user-service.js';
+import _address from '@/services/address-service.js';
 import TopNav from '@/components/mall/top-nav.vue';
 import BackBtn from '@/components/mall/to-top-btn.vue';
 import _cart from '@/services/cart-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 export default {
-    name: 'user_center',
-    data() {
-        return {
-            addressList: []
-        };
-    },
+    name: 'address',
     components: {
         TopNav,
         BackBtn
     },
     computed: {
+        addressList() {
+            return this.$store.state.addressList;
+        }
     },
     methods: {
-    },
-    mounted() {
+        onRedirect(path, id = '') {
+            const url = id ? '/pages/' + path + '/main' : '/pages/' + path + '/main?id=' + id;
+
+            wx.navigateTo({
+                url: url
+            });
+        }
     },
     // 获取滚动条当前位置
     onPageScroll(e) {
@@ -48,8 +65,9 @@ export default {
         display: flex;
         width: 100%;
         margin-top: 1.2rem;
-        background: #fcffff;
-        justify-content: space-between;
+        background: #fcfcfc;
+        justify-content: center;
+        border-bottom: 1rpx solid #eeeeee;
         span {
             color: #333;
             font-size: .34rem;
@@ -58,6 +76,50 @@ export default {
         .red-span{
             font-weight: 700;
             color: #c60023;
+        }
+    }
+    .btn-bottom{
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1rem;
+        width: 100%;
+        z-index: 50;
+        border-top: 1rpx solid #eeeeee;
+        span{
+            display: block;
+        }
+    }
+    .address-item{
+        display: flex;
+        justify-content: space-around;
+        padding: .25rem;
+        font-size: .33rem;
+        color: #9b9292;
+        background: #fcfcfc;
+        border-bottom: 1rpx solid #eeeeee;
+        p{
+            margin-bottom: .1rem;
+        }
+        .left{
+            width: 83%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            span:nth-of-type(2) {
+                margin: 0 .2rem;
+            }
+        }
+        .right{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16%;
         }
     }
 }
