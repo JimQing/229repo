@@ -11,6 +11,7 @@ const Address = {
             }
         });
     },
+    // 新增及保存收件人
     save(addressInfo) {
         return request({
             url     : baseUrl + '/shipping/add.do',
@@ -18,7 +19,7 @@ const Address = {
         });
     },
     // 更新收件人
-    update() {
+    update(addressInfo) {
         return request({
             url     : baseUrl + '/shipping/update.do',
             data    : addressInfo

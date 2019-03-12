@@ -8,6 +8,10 @@
             <i-icon type="label" class="item-icon" size="32" color="#80848f" />
             <p>购物车</p>
         </div>
+        <div class="item" @click="onRedirect('mall-order-center')">
+            <i-icon type="createtask" class="item-icon" size="32" color="#80848f" />
+            <p>订单</p>
+        </div>
         <div class="item" @click="onRedirect('mall-user-center')">
             <i-icon type="mine" class="item-icon" size="32" color="#80848f" />
             <p>用户中心</p>

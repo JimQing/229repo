@@ -57,7 +57,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$store.state.userInfo);
         $Toast({
             content: '加载用户信息中...',
             type: 'loading',
@@ -115,7 +114,9 @@ export default {
             background: ghostwhite;
             box-shadow: 0 .03rem .08rem 0 #dfdede;
             .label{
-                margin-left: .2rem;
+                display: inline-block;
+                width: 1.5rem;
+                padding: 0 .2rem;
             }
         }
     }

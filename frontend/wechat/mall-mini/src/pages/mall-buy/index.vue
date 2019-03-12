@@ -5,12 +5,13 @@
         <div class="btn-con">
             <span class="red-span">订单确认</span>
         </div>
-        <div class="address-box">
+        <div class="address-box" @click="onRedirect('mall-address')">
             <div class="address-item">
                 <div class="address-title"> 收货地址 </div>
                 <div class="address-detail" v-if="addressList.length > 0">
-                    <div class="header">{{addressList[selectId].receiverCity}} {{addressList[selectId].receiverProvince}} ({{addressList[selectId].receiverName}}收)</div>
+                    <div class="header">{{addressList[selectId].receiverCity ? addressList[selectId].receiverCity : ''}} {{addressList[selectId].receiverProvince}} ({{addressList[selectId].receiverName}}收)</div>
                     <div class="detail">{{addressList[selectId].receiverAddress}} {{addressList[selectId].receiverPhone}}</div>
+                    <span>点击变更地址</span>
                 </div>
                 <div class="address-detail" v-else>
                     <div class="header">暂无地址</div>
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+import _user from '@/services/user-service.js';
 import _order from '@/services/order-service.js';
 import _address from '@/services/address-service.js';
 import { $Toast } from '../../../static/iView/base/index';
@@ -83,7 +85,6 @@ export default {
                 this.cartTotalPrice = res.data.productTotalPrice;
             });
             _address.getAddressList().then(res=> {
-                console.log(res);
                 this.addressList = res.data.list;
                 this.$store.commit('ADDRESS_LIST', this.addressList);
             });
@@ -96,10 +97,27 @@ export default {
                     url: '/pages/mall-order/main?orderNo=' + res.data.orderNo
                 });
             });
+        },
+        onRedirect(path) {
+            wx.navigateTo({
+                url: '/pages/' + path + '/main'
+            });
         }
     },
     mounted() {
         this.init();
+        // if (!this.$store.state.isLogin) {
+        //     _user.login({
+        //         username: 'jimqing',
+        //         password: '123456'
+        //     }).then(res=> {
+        //         if (res.status === 0) {
+        //             this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
+        //             this.$store.commit('USER_STATES', true);
+        //             this.init();
+        //         }
+        //     });
+        // }
     }
 };
 </script>
@@ -192,13 +210,16 @@ export default {
             padding: 0.10rem 0.16rem;
             border: 0.06rem dashed #be5c6e;
             .address-title {
+                font-size: .34rem;
                 color: #666;
-                height: .7rem;
-                line-height: .7rem;
+                height: .6rem;
+                line-height: .6rem;
                 overflow: hidden;
+                margin-bottom: .2rem;
                 border-bottom: 1rpx solid #eeeeee;
             }
             .address-detail {
+                position: relative;
                 font-size: .33rem;
                 text-align: left;
                 margin: .15rem;
@@ -206,6 +227,15 @@ export default {
                 .header{
                     letter-spacing: 1rpx;
                     height: .57rem;
+                }
+                .detail{
+                    padding-bottom: .3rem;
+                }
+                span {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    font-size: .25rem;
                 }
             }
         }

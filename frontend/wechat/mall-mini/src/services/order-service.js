@@ -2,6 +2,12 @@ import {request} from '../utils/deliver.js'
 const baseUrl = 'https://jimqing.xin';
 
 const order = {
+    // 获取全部订单列表
+    getList() {
+        return request({
+            url     : baseUrl + '/order/list.do'
+        });
+    },
     //获取商品列表
     getProductList() {
         return request({

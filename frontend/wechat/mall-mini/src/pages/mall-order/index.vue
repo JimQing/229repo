@@ -33,6 +33,7 @@
             <i-button class="btn" type="ghost" @click="cancel">取消订单</i-button>
         </div>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
+        <div class="mask" v-if="isShowMask" @touchmove.stop="scrollStop"></div>
     </div>
 </template>
 
@@ -49,6 +50,7 @@ export default {
             orderInfo: {},
             addressList: [],
             orderNo: 1550998825364,
+            isShowMask: false,
             imgHost: 'http://onlineshoppingmall.xin:8082/'
         };
     },
@@ -60,12 +62,25 @@ export default {
             this.orderNo = this.$root.$mp.query.orderNo;
             if (!this.orderNo) {
                 $Toast('订单参数错误！');
+                return;
             }
+            this.showLoading();
             _order.getOrderDetail(this.orderNo).then(res=> {
                 this.orderInfo = res.data;
                 this.orderList = res.data.orderItemVoList;
+                $Toast.hide();
+                this.isShowMask = false;
             });
         },
+        showLoading () {
+            $Toast({
+                content: '加载中',
+                type: 'loading',
+                duration: 0
+            });
+            this.isShowMask = true;
+        },
+        scrollStop() {},
         submit() {
             $Toast({
                 content: '支付功能,暂未开通！'
@@ -85,7 +100,6 @@ export default {
     },
     mounted() {
         this.init();
-        console.log('orderNo', this.orderNo);
     }
 };
 </script>
@@ -186,6 +200,16 @@ export default {
                 }
             }
         }
+    }
+    .mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #412d2d;
+        opacity: .3;
+        z-index: 50;
     }
 }
 </style>

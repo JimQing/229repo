@@ -13,14 +13,20 @@ export function request(params) {
             },
             method: params.method || 'get',
             success(res) {
-                console.log('deliver:', res);                
+                console.log('deliverSucc:', res);
                 if (res.header && res.header['Set-Cookie']) {
                     store.commit('SET_COOKIES', res.header['Set-Cookie'].split(';')[0]);
+                }
+                if (res.data.status === 10) {
+                    wx.navigateTo({
+                        url: '/pages/mall-login/main'
+                    });
+                    return;
                 }
                 resolve(res.data);
             },
             error(err) {
-                console.log('deliver:', err);
+                console.log('deliverErr:', err);
                 reject(err);
             }
         })

@@ -1,9 +1,10 @@
 {
     "pages": [
+        "pages/mall/main",
+        "pages/mall-order-center/main",
         "pages/mall-buy/main",
         "pages/mall-address/main",
         "pages/mall-address-config/main",
-        "pages/mall/main",
         "pages/mall-cart/main",
         "pages/mall-order/main",
         "pages/mall-product-detail/main",

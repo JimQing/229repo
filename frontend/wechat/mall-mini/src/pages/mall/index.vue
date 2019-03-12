@@ -99,17 +99,17 @@
         },
         created() {
             // 后门
-            // if (!this.$store.state.isLogin) {
-            //     _user.login({
-            //         username: 'jimqing',
-            //         password: '123456'
-            //     }).then(res=> {
-            //         if (res.status === 0) {
-            //             this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
-            //             this.$store.commit('USER_STATES', true);
-            //         }
-            //     });
-            // }
+            if (!this.$store.state.isLogin) {
+                _user.login({
+                    username: 'jimqing',
+                    password: '123456'
+                }).then(res=> {
+                    if (res.status === 0) {
+                        this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
+                        this.$store.commit('USER_STATES', true);
+                    }
+                });
+            }
         }
     }
 

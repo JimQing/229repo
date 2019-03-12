@@ -4,6 +4,7 @@
         "i-button": "../../static/iView/button/index",
         "i-icon": "../../static/iView/icon/index",
         "i-modal": "../../static/iView/modal/index",
+        "i-panel": "../../static/iView/panel/index",
         "i-toast": "../../static/iView/toast/index"
     }
 }

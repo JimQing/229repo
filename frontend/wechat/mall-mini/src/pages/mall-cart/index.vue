@@ -41,9 +41,9 @@
         </div>
         <BackBtn v-if="isShowBack"/>
         <i-modal title="删除确认"
-            :visible="isShowDelect"
+            :visible="isShowDelete"
             @ok="onDelete"
-            @cancel="isShowDelect = false">
+            @cancel="isShowDelete = false">
             <div>确认要删除所选中的商品？</div>
         </i-modal>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
@@ -64,7 +64,7 @@ export default {
             cartTotalPrice: 0,
             imgHost: 'http://onlineshoppingmall.xin:8082/',
             isAllCheck: false,
-            isShowDelect: false,
+            isShowDelete: false,
             isShowBack: false,
             checkedIds: []
         };
@@ -126,7 +126,7 @@ export default {
         },
         onShowDeleteModal() {
             if (this.checkedIds.length > 0){
-                this.isShowDelect = true;
+                this.isShowDelete = true;
             } else {
                 $Toast({
                     content: '未选中任何商品'
@@ -141,7 +141,7 @@ export default {
                     this.cartTotalPrice = res.data.cartTotalPrice;
                     this.checkedIds = [];
                 });
-                this.isShowDelect = false;
+                this.isShowDelete = false;
             } else {
                 $Toast({
                     content: '未选中任何商品，请选择商品后重试'

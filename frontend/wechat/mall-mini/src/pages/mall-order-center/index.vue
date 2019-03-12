@@ -1,9 +1,38 @@
 <template>
     <div class="wrapper">
-        <TopNav :isShowInput="false" :isShowBtn="true"/>
         <!-- 按钮框 -->
         <div class="btn-con">
-            <span class="red-span">我的订单</span>
+            <div class="content" @click="onBack">
+                <i-icon type="return" class="btn-icon" size="26"/> 
+                <span class="red-span">我的订单</span>
+            </div>
+        </div>
+        <!-- 订单 -->
+        <div class="order-detail">
+            <div class="order-box" v-if="orderList.length > 0">
+                <div class="content">
+                    <div class="order-box"
+                        v-for="order in orderList"
+                        :key="order.orderNo"
+                        @click="onRedirect('mall-order', order.orderNo)">
+                        <!-- title部分 -->
+                        <div class="title">
+                            <span class="left-label">收件人： {{order.receiverName}}</span>
+                            <span class="right-label">日期： {{order.createTime}}</span>
+                        </div>
+                        <div class="desc" v-for="(product, id) in order.orderItemVoList" :key="id">
+                            <div class="img-box">
+                                <img :src="imgHost + product.productImage" alt="">
+                            </div>
+                            <span>{{product.productName}}</span>
+                        </div>
+                        <div class="bottom">
+                            <span class="left-label">订单号： {{order.orderNo}}</span>
+                            <span class="right-label">总价：￥{{order.payment}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <BackBtn v-if="isShowBack"/>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
@@ -11,26 +40,39 @@
 </template>
 
 <script>
-import TopNav from '@/components/mall/top-nav.vue';
 import BackBtn from '@/components/mall/to-top-btn.vue';
-import _cart from '@/services/cart-service.js';
+import _order from '@/services/order-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 export default {
-    name: 'user_center',
+    name: 'order_center',
     data() {
         return {
-            addressList: []
+            orderList: [],
+            imgHost: 'http://onlineshoppingmall.xin:8082/'
         };
     },
     components: {
-        TopNav,
         BackBtn
     },
-    computed: {
-    },
     methods: {
+        init() {
+            _order.getList().then(res=> {
+                this.orderList = res.data.list; 
+            });
+        },
+        onRedirect(path, id = '') {
+            const url = id !== '' ? '/pages/' + path + '/main?orderNo=' + id : '/pages/' + path + '/main';
+
+            wx.navigateTo({
+                url: url
+            });
+        },
+        onBack() {
+            wx.navigateBack({delta: 1});
+        }
     },
     mounted() {
+        this.init();
     },
     // 获取滚动条当前位置
     onPageScroll(e) {
@@ -44,20 +86,108 @@ export default {
 <style lang='less' scoped>
 .wrapper{
     width: 100%;
+    background: #fcfcfc;
+    overflow: hidden;
     .btn-con{
+        position: fixed;
+        top: 0;
         display: flex;
+        align-items: center;
+        height: 1.33rem;
         width: 100%;
-        margin-top: 1.2rem;
-        background: #fcfcfc;
-        justify-content: space-between;
-        span {
-            color: #333;
+        font-size: 0;
+        padding-left: .1rem;
+        background-color: #ffffff;
+        .content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: .34rem;
-            padding: .25rem .2rem;
+            padding-top: .4rem;
         }
-        .red-span{
-            font-weight: 700;
-            color: #c60023;
+    }
+    .order-detail{
+        margin-top: 1.33rem;
+        padding-bottom: 0.3rem;
+        background: #ffffff;
+        .content{
+            width: 100%;
+            p{
+                width: 90%;
+                margin: 0 auto;
+                margin-bottom: .1rem;
+                font-size: .33rem;
+                color: #b1acac;
+                span{
+                    width: 70%;
+                    float: right;
+                    color: #757575
+                }
+            }
+            .btn {
+                margin-bottom: .1rem;
+            }
+        }
+        .order-box{
+            margin-top: 0.3rem;
+            .content{
+                width: 100%;
+                .order-box{
+                    width: 95%;
+                    margin: 0 auto;
+                    margin-bottom: .2rem;
+                    text-align: center;
+                    background: #ffffff;
+                    border: 1px solid #eeeeee;
+                    border-radius: 0.08rem;
+                    .desc{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 95%;
+                        margin: .35rem auto;
+                        letter-spacing: 1rpx;
+                        padding-bottom: .35rem;
+                        border-bottom: 1px solid #eeeeee;
+                        .img-box{
+                            height: 120rpx;
+                            min-width: 120rpx;
+                            margin: 0 .1rem;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        span:nth-of-type(1) {
+                            font-size: .3rem;
+                            text-align: left;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 3;
+                            overflow: hidden;
+                        }
+                        span:nth-of-type(2) {
+                            width: 1.3rem;
+                            margin-right: .2rem;
+                            color: #b1acac;
+                        }
+                    }
+                    .title, .bottom{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 93%;
+                        margin: .25rem auto;
+                        color: #b1acac;
+                        font-size: .3rem;
+                        vertical-align: middle;
+                    }
+                    .title{
+                        padding-bottom: .2rem;
+                        border-bottom: 1px solid #eeeeee;
+                    }
+                }
+            }
         }
     }
 }

@@ -86,7 +86,7 @@ export default {
                 return result;
             }
             if(!!!this.password){
-                result.msg = '用户名不能为空';
+                result.msg = '密码不能为空';
                 return result;
             }
             //通过验证，返回正确信息
@@ -101,7 +101,6 @@ export default {
             });
         },
         onSubmit() {
-            console.log('submit');
             const result = this.checkVaild();
             if (!result.status) {
                 $Toast({
@@ -165,7 +164,7 @@ export default {
 }
 .panel-box{
     height: 1.3rem;
-    border: 0.01rem solid #bdbdbd;
+    border: 1rpx solid #bdbdbd;
 }
 .p-label{
     display: inline-block;

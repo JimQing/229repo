@@ -6,8 +6,8 @@
             <span class="red-span">我的收货地址</span>
         </div>
         <div class="address-item" v-for="(item, index) in addressList" :key="index">
-            <div class="left">
-                <p>{{item.receiverAddress}}&ensp;&ensp;{{item.receiverCity}}&ensp;&ensp;{{item.receiverProvince}}</p>
+            <div class="left" @click="onChangeAddress(index)">
+                <p>{{item.receiverAddress}}&ensp;{{item.receiverCity}}&ensp;{{item.receiverProvince}}</p>
                 <span>{{item.receiverName}} </span><span>{{item.receiverPhone}}</span>
             </div>
             <div class="right" @click="onRedirect('mall-address-config', index)">
@@ -42,11 +42,15 @@ export default {
     },
     methods: {
         onRedirect(path, id = '') {
-            const url = id ? '/pages/' + path + '/main' : '/pages/' + path + '/main?id=' + id;
+            const url = id !== '' ? '/pages/' + path + '/main?id=' + id : '/pages/' + path + '/main';
 
             wx.navigateTo({
                 url: url
             });
+        },
+        onChangeAddress(id) {
+            this.$store.commit('SELECT_ADDRESS', id);
+            wx.navigateBack({delta: 1});
         }
     },
     // 获取滚动条当前位置
