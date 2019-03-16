@@ -34,6 +34,7 @@
     export default {
         data() {
             return {
+                userData: {},
                 content: '',
                 isBottom: false,
                 isShowBack: false,
@@ -65,7 +66,10 @@
                     success: () => {
                         wx.getUserInfo({
                             success: res=> {
-                                this.$store.commit('USER_INFO', Object.assign(res.userInfo, this.$store.state.userInfo));
+                                for (let key in res.userInfo) {
+                                    this.userData[key] = res.userInfo[key];
+                                }
+                                this.$store.commit('USER_INFO', this.userData);
                             }
                         })
                     }
@@ -94,19 +98,18 @@
         onReachBottom() {
             this.isBottom = !this.isBottom;
         },
-        mounted() {
-            this.getLoginInfo();
-        },
         created() {
-            // 后门
+            // 后门 getLoginInfo函数独立，切记
             if (!this.$store.state.isLogin) {
                 _user.login({
                     username: 'jimqing',
                     password: '123456'
                 }).then(res=> {
                     if (res.status === 0) {
-                        this.$store.commit('USER_INFO', Object.assign(res.data, this.$store.state.userInfo));
+                        this.userData = res.data;
+                        // this.$store.commit('USER_INFO', res.data);
                         this.$store.commit('USER_STATES', true);
+                        this.getLoginInfo();
                     }
                 });
             }

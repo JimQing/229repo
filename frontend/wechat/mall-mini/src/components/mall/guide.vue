@@ -69,6 +69,9 @@
         background: #fcfcfc;
         border: 1px solid #eeeeee;
         border-radius: .08rem;
+        box-shadow: 0 0.02rem 0.04rem 0
+            rgba(0, 0, 0, .12),
+            0 0.02rem 0.04rem 0 rgba(0, 0, 0, .08);
         margin: 0;
         .box-item {
             text-align: center;

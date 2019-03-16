@@ -30,6 +30,10 @@
             </div>
             <i-toast id="toast" />
         </div>
+        <div class="tip">
+            <p>本小程序由 JimQing 开发实现</p>
+            <p>仅作为自学作品展示使用!!</p>
+        </div>
     </div>
 </template>
 
@@ -118,6 +122,14 @@ export default {
                 width: 1.5rem;
                 padding: 0 .2rem;
             }
+        }
+    }
+    .tip{
+        text-align: center;
+        font-size: .28rem;
+        padding: .2rem .05rem;
+        p{
+            padding: .02rem;
         }
     }
 }

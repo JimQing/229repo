@@ -53,7 +53,7 @@
     import _product from '@/services/product-service.js';
     import { $Toast } from '../../../static/iView/base/index';
     import _cart from '@/services/cart-service.js';
-import { fail } from 'assert';
+    import { fail } from 'assert';
     export default {
         data() {
             return {
@@ -215,6 +215,9 @@ import { fail } from 'assert';
             text-align: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0.02rem 0.04rem 0
+                rgba(0, 0, 0, .12),
+                0 0.02rem 0.04rem 0 rgba(0, 0, 0, .08);
             .product-price, .product-store{
                 height: .5rem;
                 width: 95%;
@@ -281,10 +284,11 @@ import { fail } from 'assert';
             }
         }
         .Tips{
-            padding: .2rem 0;
+            width: 87%;
+            font-size: .3rem;
+            padding: .2rem 3%;
             color: #495060;
             font-weight: bold;
-            border: .03rem solid #eeeeee;
         }
         .product-bottom {
             display: flex;

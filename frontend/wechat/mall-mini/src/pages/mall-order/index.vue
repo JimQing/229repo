@@ -131,6 +131,7 @@ export default {
                 width: 90%;
                 margin: 0 auto;
                 margin-bottom: .1rem;
+                padding-top: .05rem;
                 font-size: .33rem;
                 color: #b1acac;
                 span{

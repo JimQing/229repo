@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="!isShowProduct" class="error-content">{{errorMsg}}</div>
+                <div v-if="!isShowProduct" class="error-content">{{msg}}</div>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
         data() {
             return {
                 isShowProduct: false,
-                errorMsg: '加载中...',
+                msg: '加载中...',
                 waterflow: ['', ''],
                 productList: [],
                 productTitle: '默认商品列表'
@@ -63,10 +63,9 @@
                     this.isShowProduct = true;
                 } else {
                     this.isShowProduct = false;
-                    setTimeout(() => {
-                        this.errorMsg = '您所搜索的商品可能不存在哦...'
-                    }, 3000);
+                    this.msg = '您所搜索的商品可能不存在哦...';
                 }
+                this.$emit('done', this.isShowProduct);
             },
             handleClickShowDetail(index) {
                 wx.navigateTo({
@@ -75,9 +74,6 @@
             }
         },
         mounted() {
-            this.getProductList();
-        },
-        onShow() {
             this.getProductList();
         },
         onUnload() {
@@ -101,12 +97,14 @@
 <style lang="less" scoped>
     .wrapper {
         background: white;
-        width: 7.125rem;
         margin: .2rem auto;
         text-align: center;
         position: relative;
         border: 1px solid #eeeeee;
         border-radius: .08rem;
+        box-shadow: 0 0.02rem 0.04rem 0
+            rgba(0, 0, 0, .12),
+            0 0.02rem 0.04rem 0 rgba(0, 0, 0, .08);
     }
 
     .box {
@@ -118,13 +116,13 @@
             flex-direction: row;
             margin: 0 auto;
             margin-top: -.2rem;
-            width: 7.125rem;
+            width: 100%;
         }
 
         .product-column {
             display: flex;
             flex-flow: column wrap;
-            width: 3.465rem;
+            width: 50%;
             margin: .06rem;
         }
 

@@ -5,15 +5,18 @@
             <!-- 内容  -->
             <div class="product-box">
                 <div class="header-line"></div>
-                <Product :atBottom="isBottom" :productTitle="productTitle" :productInfo="product"></Product>
+                <Product :atBottom="isBottom"
+                    :productTitle="productTitle"
+                    :productInfo="product"
+                    @done="loadSucc"></Product>
             </div>
             <div class="back" v-show="isShowBack" @click.prevent="jumpToTop">
                 <i-avatar class="back-avatar" shape="square" size="large">
                     <i-icon type="packup" class="back-icon" color="#ffffff" size="32"/>
                 </i-avatar>
             </div>
-            <i-button type="ghost" @click="handleText">加载中...</i-button>
-            <i-toast id="toast" />
+            <i-toast id="toast"  @touchmove.stop="scrollStop" />
+            <div class="mask" v-if="isShowMask" @touchmove.stop="scrollStop"></div>
         </div>
     </div>
 </template>
@@ -27,6 +30,7 @@
             return {
                 product: {},
                 isShowBack: false,
+                isShowMask: false,
                 isBottom: false
             }
         },
@@ -39,13 +43,15 @@
                 pageNum: 1,
                 pageSize: 20
             };
+            // 展示loadinga
+            $Toast({
+                content: '加载中',
+                type: 'loading',
+                duration: 0
+            });
+            this.isShowMask = true;
         },
         methods: {
-            handleText () {
-                $Toast({
-                    content: this.product.keyword || '加载中...'
-                });
-            },
             jumpToTop() {
                 if (wx.pageScrollTo) {
                     wx.pageScrollTo({
@@ -56,9 +62,19 @@
                     wx.showModal({
                         title: '提示',
                         content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-                    })
+                    });
                 }
-            }
+            },
+            loadSucc(flag) {
+                $Toast.hide();
+                this.isShowMask = false;
+                if (!flag) {
+                    $Toast({
+                        content: '您所搜索的商品可能不存在哦~'
+                    });
+                }
+            },
+            scrollStop() {}
         },
         // 上拉加载回调接口
         onReachBottom() {
@@ -115,5 +131,16 @@
                 top: -.05rem;
             }
         }
+    }
+    
+    .mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #412d2d;
+        opacity: .3;
+        z-index: 50;
     }
 </style>

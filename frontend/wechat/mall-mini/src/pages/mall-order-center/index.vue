@@ -138,8 +138,11 @@ export default {
                     margin-bottom: .2rem;
                     text-align: center;
                     background: #ffffff;
-                    border: 1px solid #eeeeee;
+                    border: 1rpx solid #eeeeee;
                     border-radius: 0.08rem;
+                    box-shadow: 0 0.02rem 0.04rem 0
+                        rgba(0, 0, 0, .12),
+                        0 0.02rem 0.04rem 0 rgba(0, 0, 0, .08);
                     .desc{
                         display: flex;
                         justify-content: space-between;
@@ -148,7 +151,7 @@ export default {
                         margin: .35rem auto;
                         letter-spacing: 1rpx;
                         padding-bottom: .35rem;
-                        border-bottom: 1px solid #eeeeee;
+                        border-bottom: 1rpx solid #eeeeee;
                         .img-box{
                             height: 120rpx;
                             min-width: 120rpx;
@@ -184,7 +187,7 @@ export default {
                     }
                     .title{
                         padding-bottom: .2rem;
-                        border-bottom: 1px solid #eeeeee;
+                        border-bottom: 1rpx solid #eeeeee;
                     }
                 }
             }

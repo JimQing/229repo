@@ -4,6 +4,7 @@
             <img  v-for="(item, index) in imgUrl" :key="index"
                 :src="item"
                 class="banner-img" alt="">
+            <img class="banner-img" :src="imgUrl[0]" alt="">
         </div>
     </div>
 </template>
@@ -28,6 +29,11 @@ export default {
                 'https://jimqing.xin/mall/mmall-fe/dist/resource/banner4.jpg'
             ]
         }
+    },
+    methods: {
+        reBackArray() {
+
+        }
     }
 }
 </script>
@@ -40,9 +46,9 @@ export default {
         overflow: hidden;
         border-radius: .08rem;
         .box {
-            width: 35.625rem;
+            width: 42.625rem;
             height: 100%;
-            animation: imgbox 8s ease-in-out infinite forwards;
+            animation: imgbox 15s ease-in-out infinite forwards;
             /* 如果想手指按住不动不执行动画，不能使用hover而是使用active */
             &:active {
                 animation-play-state: paused;
@@ -57,23 +63,25 @@ export default {
             }
         }
     }
-
     @keyframes imgbox {
-        0%,
-        14% {
+        0%{
             margin-left: 0;
         }
-        21%,
-        35% {
+        20%,
+        25% {
             margin-left: -7.118rem;
         }
-        42%,
-        56% {
+        45%,
+        50% {
             margin-left: -14.222rem;
         }
-        63%,
-        77% {
+        70%,
+        75% {
             margin-left: -21.348rem;
+        }
+        95%,
+        100% {
+            margin-left: -28.448rem;
         }
     }
 </style>
