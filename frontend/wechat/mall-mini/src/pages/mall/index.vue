@@ -9,12 +9,14 @@
             <BackBtn v-if="isShowBack"/>
             <Banner></Banner>
             <Guide></Guide>
+            <showCase></showCase>
             <Product :atBottom="isBottom" :productTitle="productTitle" :productInfo="product"></Product>
             <BottomNav></BottomNav>
-            <i-button class="more-btn" type="ghost" @click="handleText">更多精彩...</i-button>
+        <i-button class="more-btn" type="ghost" @click="handleText">不能再往下了哦。</i-button>
         </div>
         <div class="window" v-if="isShowWindow" @touchmove.stop="scrollStop">
-            <p>注意：本小程序商城仅用于个人自学作品的演示！所有商品均为虚拟商品，且不会有真实交易产生！</p>
+            <p>注意</p>
+            <p>本小程序商城仅用于个人自学作品的演示！所有商品均为虚拟商品，且不会有真实交易产生！</p>
             <i-button class="more-btn" type="ghost" @click="closeWindow">了解并使用</i-button>
         </div>
         <div class="mask" v-if="isShowWindow" @touchmove.stop="scrollStop"></div>
@@ -23,6 +25,7 @@
 
 <script>
     import Banner from '@/components/mall/banner.vue';
+    import showCase from '@/components/mall/showCase.vue';
     import BackBtn from '@/components/mall/to-top-btn.vue';
     import BottomNav from '@/components/mall/bottom-nav.vue';
     import Guide from '@/components/mall/guide.vue';
@@ -57,7 +60,8 @@
             Guide,
             Product,
             BottomNav,
-            BackBtn
+            BackBtn,
+            showCase
         },
         methods: {
             getLoginInfo() {
@@ -189,18 +193,26 @@
         top: 50%;
         left: 50%;
         color: #495060;
+        font-size: .28rem;
         font-weight: bold;
         background: white;
         width: 6rem;
         margin: .2rem auto;
         padding: .3rem .35rem;
+        padding-bottom: .15rem;
         text-align: center;
         transform: translate(-50%, -50%);
         border: 1px solid #eeeeee;
         border-radius: .08rem;
         z-index: 51;
         p {
+            &:nth-of-type(1) {
+                font-size: .44rem;
+                color: #c60023;
+                padding-bottom: .1rem;
+            }
             margin-top: .15rem;
+            padding-bottom: .2rem;
         }
     }
         

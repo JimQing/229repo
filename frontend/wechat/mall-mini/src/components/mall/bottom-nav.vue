@@ -1,28 +1,58 @@
 <template>
     <div class="bar-bottom">
-        <div class="item">
-            <i-icon type="homepage_fill" class="item-icon" size="32" color="#80848f" @click="onRedirect('mall-user-center')" />
-            <p>首页</p>
-        </div>
-        <div class="item" @click="onRedirect('mall-cart')">
-            <i-icon type="label" class="item-icon" size="32" color="#80848f" />
-            <p>购物车</p>
-        </div>
-        <div class="item" @click="onRedirect('mall-order-center')">
-            <i-icon type="createtask" class="item-icon" size="32" color="#80848f" />
-            <p>订单</p>
-        </div>
-        <div class="item" @click="onRedirect('mall-user-center')">
-            <i-icon type="mine" class="item-icon" size="32" color="#80848f" />
-            <p>用户中心</p>
+        <div class="item"
+            v-for="(item, index) in iconImg"
+            :key="index"
+            @click="onRedirect(item.address)">
+            <img class="item-icon"
+                :src="'../../../../../static/image/' + item.icon + '.png'"
+                alt="">
+            <p>{{item.word}}</p>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            iconImg: {
+                type: Array,
+                default: [
+                    {
+                        address: 'mall',
+                        icon: 'nav_home',
+                        word: '首页'
+                    },
+                    {
+                        address: 'mall-cart',
+                        icon: 'nav_cart',
+                        word: '购物车'
+                    },
+                    {
+                        address: 'mall-order-center',
+                        icon: 'nav_order',
+                        word: '订单'
+                    },
+                    {
+                        address: 'mall-user-center',
+                        icon: 'nav_user',
+                        word: '用户中心'
+                    }
+                ]
+            }
+        },
+        computed: {
+            currPage() {
+                const currPage = getCurrentPages();
+
+                return currPage[currPage.length - 1].route.split('/')[1];
+            }
+        },
         methods: {
             onRedirect(path) {
+                if (path === this.currPage) {
+                    return;
+                }
                 wx.navigateTo({
                     url: '/pages/' + path + '/main'
                 });
@@ -49,6 +79,11 @@
     z-index: 20;
     .item{
         width: 33.33%;
+        padding-top: .1rem;
+        .item-icon {
+            width: .48rem;
+            height: .48rem;
+        }
     }
 }
 </style>

@@ -3,7 +3,7 @@
         <div class="box">
             <div class="box-item" v-for="(item, index) in guider" :key="index" @click="JumpToProduct(item.content)">
                 <div class="item-img">
-                    <i-icon :type="item.icon" class="item-icon" size="32" color="#c60023"/>
+                    <img class="item-icon" :src="'../../../../../static/image/' + item.icon + '.png'" alt="">
                 </div>
                 <span>{{item.content}}</span>
             </div>
@@ -17,35 +17,35 @@
             return {
                 guider: [
                     {
-                        icon: 'mobilephone',
+                        icon: 'phone',
                         content: '手机'
                     },
                     {
-                        icon: 'camera',
+                        icon: 'shuma',
                         content: '数码'
                     },
                     {
-                        icon: 'computer',
+                        icon: 'diannao',
                         content: '电脑'
                     },
                     {
-                        icon: 'activity',
+                        icon: 'bangong',
                         content: '办公'
                     },
                     {
-                        icon: 'live',
+                        icon: 'dianshi',
                         content: '电视'
                     },
                     {
-                        icon: 'integral',
+                        icon: 'zhubao',
                         content: '珠宝'
                     },
                     {
-                        icon: 'document',
+                        icon: 'books',
                         content: '图书'
                     },
                     {
-                        icon: 'homepage',
+                        icon: 'sofa',
                         content: '家装'
                     }
                 ]
@@ -66,18 +66,17 @@
         margin: 0 auto;
     }
     .box{
-        background: #fcfcfc;
-        border: 1px solid #eeeeee;
+        background: #ffffff;
+        border: 1rpx solid #eeeeee;
         border-radius: .08rem;
-        box-shadow: 0 0.02rem 0.04rem 0
-            rgba(0, 0, 0, .12),
-            0 0.02rem 0.04rem 0 rgba(0, 0, 0, .08);
+        box-shadow: 0rpx 1rpx 4rpx rgba(0,0,0,0.3),
+            0 0 10rpx rgba(0,0,0,0.1) inset; 
         margin: 0;
         .box-item {
             text-align: center;
             display: inline-block;
-            font-size: .35rem;
-            background: #fcfcfc;
+            font-size: .26rem;
+            background: #ffffff;
             padding: .22rem;
             margin-bottom: .03rem;
             .item-img {
@@ -86,6 +85,10 @@
                 margin-bottom: .04rem;
                 width: 1.3rem;
                 height: .6rem;
+                .item-icon{
+                    width: .6rem;
+                    height: .6rem;
+                }
             }
             &:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
                 margin-top: .03rem;

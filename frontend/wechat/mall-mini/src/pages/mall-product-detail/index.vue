@@ -229,13 +229,13 @@
                     color: #e7380d;
                 }
                 .store {
-                    font-size: .35rem;
+                    font-size: .33rem;
                     color: #e7380d;
                 }
             }
             .product-name {
                 width: 95%;
-                font-size: .4rem;
+                font-size: .35rem;
                 text-align: left;
                 margin: .15rem auto;
                 color: #c60023;
@@ -270,6 +270,7 @@
                 }
                 .detail-box {
                     margin: .15rem auto;
+                    font-size: .33rem;
                     .picture {
                         margin: .1rem 0;
                         img{
@@ -322,7 +323,7 @@
             }
             .buy {
                 display: table;
-                font-size: .5rem;
+                font-size: .4rem;
                 width: 75%;
                 height: 100%;
                 color: #b9374f;

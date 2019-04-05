@@ -1,3 +1,8 @@
+<template>
+    <div class="wrapper">
+       body
+    </div>
+</template>
 <script>
 export default {
   created () {
