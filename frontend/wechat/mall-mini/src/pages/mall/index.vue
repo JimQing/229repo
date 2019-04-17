@@ -31,6 +31,7 @@
     import Guide from '@/components/mall/guide.vue';
     import Product from '@/components/mall/product.vue';
     import _user from '@/services/user-service.js';
+    import _storage from '@/utils/storage.js';
     import {
         $Toast
     } from '../../../static/iView/base/index';
@@ -65,19 +66,39 @@
         },
         methods: {
             getLoginInfo() {
+                const _this = this;
                 // 获取用户信息
                 wx.login({
-                    success: () => {
+                    success: function() {
                         wx.getUserInfo({
                             success: res=> {
                                 for (let key in res.userInfo) {
-                                    this.userData[key] = res.userInfo[key];
+                                    _this.userData[key] = res.userInfo[key];
                                 }
-                                this.$store.commit('USER_INFO', this.userData);
+                                _this.$store.commit('USER_INFO', _this.userData);
                             }
                         })
                     }
                 });
+            },
+            checkLogin() {
+                let openid = _storage.getStorageSync('openid');
+                let _this = this;
+
+                if (!openid) {
+                    wx.login({
+                        success: function(res) {
+                            _user.getOpenId(res.code).then(res=> {
+                                console.log('获取新openid:' + res.openid);
+                                _storage.setStorageSync('openid', res.openid);
+                                _this.$store.commit('OPEN_ID', openid);
+                            });
+                        }
+                    });
+                } else {
+                    this.$store.commit('OPEN_ID', openid);
+                    console.log('存储了老的openid', openid);
+                }
             },
             onShow() {
                 wx.navigateTo({
@@ -103,18 +124,28 @@
             this.isBottom = !this.isBottom;
         },
         created() {
+            this.checkLogin();
             // 后门 getLoginInfo函数独立，切记
             if (!this.$store.state.isLogin) {
-                _user.login({
-                    username: 'jimqing',
-                    password: '123456'
+                _user.register({
+                    username: this.$store.state.openId + '_wx',
+                    phoneNum: '11111111111',
+                    password: '123456',
+                    email: this.$store.state.openId + '@email.com',
+                    question: 'Not Supported',
+                    answer: 'Not Supported'
                 }).then(res=> {
-                    if (res.status === 0) {
-                        this.userData = res.data;
-                        // this.$store.commit('USER_INFO', res.data);
-                        this.$store.commit('USER_STATES', true);
-                        this.getLoginInfo();
-                    }
+                    _user.login({
+                        username: this.$store.state.openId + '_wx',
+                        password: '123456'
+                    }).then(res=> {
+                        if (res.status === 0) {
+                            this.userData = res.data;
+                            this.$store.commit('USER_INFO', res.data);
+                            this.$store.commit('USER_STATES', true);
+                            this.getLoginInfo();
+                        }
+                    });
                 });
             }
         }

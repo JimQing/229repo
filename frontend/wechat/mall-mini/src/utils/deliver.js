@@ -18,9 +18,9 @@ export function request(params) {
                     store.commit('SET_COOKIES', res.header['Set-Cookie'].split(';')[0]);
                 }
                 if (res.data.status === 10) {
-                    wx.navigateTo({
-                        url: '/pages/mall-login/main'
-                    });
+                    // wx.navigateTo({
+                    //     url: '/pages/mall-login/main'
+                    // });
                     return;
                 }
                 resolve(res.data);

@@ -4,7 +4,8 @@ import {
     TIPS,
     SELECT_ADDRESS,
     ADDRESS_LIST,
-    SET_COOKIES
+    SET_COOKIES,
+    OPEN_ID
 } from './mutation-types.js';
 
 export default {
@@ -25,5 +26,8 @@ export default {
     },
     [ADDRESS_LIST] (state, v) {
         state.addressList = v;
+    },
+    [OPEN_ID] (state, v) {
+        state.openId = v;
     }
 }

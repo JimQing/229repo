@@ -147,6 +147,7 @@ export default {
                     });
                     _address.getAddressList().then(res=> {
                         this.$store.commit('ADDRESS_LIST', res.data.list);
+                        console.log(this.$store.state.addressList);
                         this.onBack();
                     });
                 });

@@ -7,7 +7,7 @@
             <span class="red-span">Cart</span>
             <span @click="onShowDeleteModal">删除商品</span>
         </div>
-        <div class="cart-box">
+        <div class="cart-box" v-if="cartList.length > 0">
             <div class="content" v-for="(product, index) in cartList" :key="index">
                 <div class="product-box" :id='product.productId'>
                     <div class="desc">
@@ -33,6 +33,7 @@
                 </div>
             </div>
         </div>
+        <div class="center-word" v-else>您的购物车空空如也。。</div>
         <div class="total-box">
             <div class="total">
                 <span>{{'总价：￥' + cartTotalPrice}}</span>
@@ -104,6 +105,9 @@ export default {
             }
         },
         onAllCheck() {
+            if (this.cartList.length <= 0) {
+                return;
+            }
             if (this.isAllCheck) {
                 _cart.unSelectAll().then(res=> {
                     this.cartList = res.data.cartProductVoList;
@@ -181,27 +185,33 @@ export default {
                     content: '未选中任何商品，请选择商品后重试'
                 });
             }
+        },
+        getCartList() {
+            _cart.getCartList().then(res=> {
+                if (res.data.cartProductVoList && res.data.cartProductVoList.length > 0) {
+                    this.cartList = res.data.cartProductVoList;
+                    this.isAllCheck = res.data.allChecked;
+                    this.cartTotalPrice = res.data.cartTotalPrice;
+                    this.cartList.forEach(element=> {
+                        if(element.productChecked === 1) {
+                            this.checkedIds.push(element.productId);
+                        }
+                    });
+                } else {
+                    this.cartList = [];
+                    this.isAllCheck = false;
+                    this.cartTotalPrice = 0;
+                    this.checkedIds = [];
+                }
+            });
         }
     },
     mounted() {
-        if (!this.$store.state.isLogin) {
-            wx.navigateTo({
-                url: '/pages/mall-login/main'
-            });
-            return;
-        }
-        _cart.getCartList().then(res=> {
-            if (res.data.cartProductVoList && res.data.cartProductVoList.length > 0) {
-                this.cartList = res.data.cartProductVoList;
-                this.isAllCheck = res.data.allChecked;
-                this.cartTotalPrice = res.data.cartTotalPrice;
-                this.cartList.forEach(element=> {
-                    if(element.productChecked === 1) {
-                        this.checkedIds.push(element.productId);
-                    }
-                });
-            }
-        });
+        this.getCartList();
+    },
+    onShow() {
+        console.log('onshow');
+        this.getCartList();
     },
     // 获取滚动条当前位置
     onPageScroll(e) {
@@ -367,6 +377,11 @@ export default {
             display: table-cell;
             vertical-align: middle;
         }
+    }
+    .center-word{
+        padding: .2rem;
+        text-align: center;
+        opacity: .6;
     }
 }
 </style>

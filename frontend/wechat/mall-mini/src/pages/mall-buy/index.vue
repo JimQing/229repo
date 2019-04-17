@@ -9,7 +9,7 @@
             <div class="address-item">
                 <div class="address-title"> 收货地址 </div>
                 <div class="address-detail" v-if="addressList.length > 0">
-                    <div class="header">{{addressList[selectId].receiverCity ? addressList[selectId].receiverCity : ''}} {{addressList[selectId].receiverProvince}} ({{addressList[selectId].receiverName}}收)</div>
+                    <div class="header">{{!!!addressList[selectId].receiverCity ? addressList[selectId].receiverCity : ''}} {{addressList[selectId].receiverProvince}} ({{addressList[selectId].receiverName}}收)</div>
                     <div class="detail">{{addressList[selectId].receiverAddress}} {{addressList[selectId].receiverPhone}}</div>
                     <span>点击变更地址</span>
                 </div>
@@ -103,6 +103,9 @@ export default {
                 url: '/pages/' + path + '/main'
             });
         }
+    },
+    onShow() {
+        this.addressList = this.$store.state.addressList;
     },
     mounted() {
         this.init();

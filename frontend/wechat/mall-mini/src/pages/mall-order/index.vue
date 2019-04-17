@@ -29,8 +29,12 @@
                     </div>
                 </div>
             </div>
-            <i-button class="btn" type="ghost" @click="submit">去支付</i-button>
-            <i-button class="btn" type="ghost" @click="cancel">取消订单</i-button>
+            <i-button class="btn" v-if="orderInfo.statusDesc !== '已取消' && orderInfo.statusDesc !== '已付款'"
+                type="ghost" 
+                @click="submit">去支付</i-button>
+            <i-button class="btn"
+                v-if="orderInfo.statusDesc !== '已取消' && orderInfo.statusDesc !== '已付款'" 
+                type="ghost" @click="cancel">取消订单</i-button>
         </div>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
         <div class="mask" v-if="isShowMask" @touchmove.stop="scrollStop"></div>
@@ -82,8 +86,13 @@ export default {
         },
         scrollStop() {},
         submit() {
-            $Toast({
-                content: '支付功能,暂未开通！'
+            _order.pay(this.orderNo).then(res=> {
+                $Toast({
+                    content: '支付成功'
+                });
+                wx.navigateBack({
+                    delta: 1, // 回退前 delta(默认为1) 页面
+                });
             });
         },
         cancel() {
@@ -91,9 +100,8 @@ export default {
                 $Toast({
                     content: '取消成功'
                 });
-                // 跳转购物车
-                wx.redirectTo({
-                    url: '/pages/mall-cart/main'
+                wx.navigateBack({
+                    delta: 1, // 回退前 delta(默认为1) 页面
                 });
             });
         }

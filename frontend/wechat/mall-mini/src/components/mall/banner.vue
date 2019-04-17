@@ -27,10 +27,11 @@
             imgUrl: {
                 type: Array,
                 default: [
-                    'https://jimqing.xin/mall/mmall-fe/dist/resource/banner1.jpg',
-                    'https://jimqing.xin/mall/mmall-fe/dist/resource/banner2.jpg',
-                    'https://jimqing.xin/mall/mmall-fe/dist/resource/banner3.jpg',
-                    'https://jimqing.xin/mall/mmall-fe/dist/resource/banner4.jpg'
+                    'http://jimqing.xin/image/banner1.png',
+                    'http://jimqing.xin/image/banner2.png',
+                    'http://jimqing.xin/image/banner3.png',
+                    'http://jimqing.xin/image/banner4.png',
+                    'http://jimqing.xin/image/banner5.png'
                 ]
             }
         },

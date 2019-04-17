@@ -58,6 +58,9 @@ export default {
         setTimeout(() => {
             this.isShowBack = e.scrollTop > 250;
         }, 100);
+    },
+    onShow() {
+        this.addressList = this.$store.state.addressList;
     }
 };
 </script>

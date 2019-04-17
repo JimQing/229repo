@@ -11,6 +11,7 @@ const state = {
     isLogin: false,
     isShowWindow: true,
     cookie: '',
+    openId: '',
     addressList: [],
     addressId: 0
 };

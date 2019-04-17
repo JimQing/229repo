@@ -10,23 +10,7 @@
         <div class="user-info">
             <div class="form-line">
                 <span class="label">用户名：</span>
-                <span class="text">{{userInfo.username}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">电 话：</span>
-                <span class="text">{{userInfo.phone}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">邮 箱：</span>
-                <span class="text">{{userInfo.email}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">问 题：</span>
-                <span class="text">{{userInfo.question}}</span>
-            </div>
-            <div class="form-line">
-                <span class="label">答 案：</span>
-                <span class="text">{{userInfo.answer}}</span>
+                <span class="text">{{userInfo.nickName}}</span>
             </div>
             <i-toast id="toast" />
         </div>
@@ -44,7 +28,34 @@ export default {
     name: 'user_center',
     data() {
         return {
-            content: 'User-Center'
+            content: 'User-Center',
+            list: [
+                {
+                    type: '我的购物车',
+                    word: '',
+                    export: ''
+                },
+                {
+                    type: '我的订单',
+                    word: '',
+                    export: ''
+                },
+                {
+                    type: '我的地址',
+                    word: '',
+                    export: ''
+                },
+                {
+                    type: '',
+                    word: '',
+                    export: ''
+                },
+                {
+                    type: '',
+                    word: '',
+                    export: ''
+                }
+            ]
         };
     },
     components: {
@@ -107,13 +118,12 @@ export default {
         }
     }
     .user-info{
-        width: 85%;
+        width: 100%;
         margin: 0 auto;
         .form-line{
             height: 1rem;
             line-height: 1rem;
             font-size: .36rem;
-            margin-bottom: .08rem;
             border-bottom: 1px solid #dfdede;
             background: ghostwhite;
             box-shadow: 0 .03rem .08rem 0 #dfdede;

@@ -45,6 +45,12 @@ const User = {
             url     : baseUrl + '/user/check_valid.do',
             data    : listParam
         });
+    },
+    getOpenId(code) {
+        return request({
+            url     : 'https://api.weixin.qq.com/sns/jscode2session?appid=wx77efe284d65afa68&secret=ebb01139b00841f6f2e3ae3a17475a77&js_code='
+                + code +'&grant_type=authorization_code'
+        });
     }
 }
 export default User;

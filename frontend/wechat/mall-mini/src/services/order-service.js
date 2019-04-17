@@ -35,6 +35,14 @@ const order = {
                 orderNo : orderNumber
             }
         });
+    },
+    pay(orderNumber) {
+        return request({
+            url     : baseUrl + '/order/pay_money.do',
+            data    : {
+                orderNo : orderNumber
+            }
+        });
     }
 };
 

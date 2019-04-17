@@ -11,8 +11,55 @@
         <div class="order-detail">
             <div class="order-box" v-if="orderList.length > 0">
                 <div class="content">
+                    <p class="content-title" v-if="noPaidOrder.length > 0">>>未支付</p>
                     <div class="order-box"
-                        v-for="order in orderList"
+                        v-for="order in noPaidOrder"
+                        :key="order.orderNo"
+                        @click="onRedirect('mall-order', order.orderNo)">
+                        <!-- title部分 -->
+                        <div class="title">
+                            <span class="left-label">收件人： {{order.receiverName}}</span>
+                            <span class="right-label">日期： {{order.createTime}}</span>
+                        </div>
+                        <div class="desc" v-for="(product, id) in order.orderItemVoList" :key="id">
+                            <div class="img-box">
+                                <img :src="imgHost + product.productImage" alt="">
+                            </div>
+                            <span>{{product.productName}}</span>
+                        </div>
+                        <div class="bottom">
+                            <span class="left-label">订单号： {{order.orderNo}}</span>
+                            <span class="right-label">总价：￥{{order.payment}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <p class="content-title" v-if="paidOrder.length > 0">>>已付款</p>
+                    <div class="order-box"
+                        v-for="order in paidOrder"
+                        :key="order.orderNo"
+                        @click="onRedirect('mall-order', order.orderNo)">
+                        <!-- title部分 -->
+                        <div class="title">
+                            <span class="left-label">收件人： {{order.receiverName}}</span>
+                            <span class="right-label">日期： {{order.createTime}}</span>
+                        </div>
+                        <div class="desc" v-for="(product, id) in order.orderItemVoList" :key="id">
+                            <div class="img-box">
+                                <img :src="imgHost + product.productImage" alt="">
+                            </div>
+                            <span>{{product.productName}}</span>
+                        </div>
+                        <div class="bottom">
+                            <span class="left-label">订单号： {{order.orderNo}}</span>
+                            <span class="right-label">总价：￥{{order.payment}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <p class="content-title" v-if="cancelOrder.length > 0">>>已取消</p>
+                    <div class="order-box"
+                        v-for="order in cancelOrder"
                         :key="order.orderNo"
                         @click="onRedirect('mall-order', order.orderNo)">
                         <!-- title部分 -->
@@ -33,6 +80,7 @@
                     </div>
                 </div>
             </div>
+            <div class="center-word" v-else>暂无订单</div>
         </div>
         <BackBtn v-if="isShowBack"/>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />
@@ -54,6 +102,17 @@ export default {
     components: {
         BackBtn
     },
+    computed: {
+        paidOrder() {
+            return this.orderList.filter(order=> order.statusDesc === '已付款');
+        },
+        noPaidOrder() {
+            return this.orderList.filter(order=> order.statusDesc === '未支付');
+        },
+        cancelOrder() {
+            return this.orderList.filter(order=> order.statusDesc === '已取消');
+        }
+    },
     methods: {
         init() {
             _order.getList().then(res=> {
@@ -72,6 +131,9 @@ export default {
         }
     },
     mounted() {
+        this.init();
+    },
+    onShow() {
         this.init();
     },
     // 获取滚动条当前位置
@@ -112,6 +174,10 @@ export default {
         background: #ffffff;
         .content{
             width: 100%;
+            .content-title{
+                padding-bottom: .15rem;
+                opacity: .7;
+            }
             p{
                 width: 90%;
                 margin: 0 auto;
@@ -192,6 +258,10 @@ export default {
                 }
             }
         }
+    }
+    .center-word{
+        text-align: center;
+        opacity: .6;
     }
 }
 </style>
