@@ -48,7 +48,7 @@
                 isShowBack: false,
                 productTitle: '花样生活',
                 product: {
-                    keyword: '手机',
+                    keyword: 'A',
                     orderBy: 'default',
                     pageNum: 1,
                     pageSize: 20

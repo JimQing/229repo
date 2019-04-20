@@ -1,6 +1,7 @@
 {
     "pages": [
         "pages/mall/main",
+        "pages/mall-user-center/main",
         "pages/mall-address-config/main",
         "pages/mall-order-center/main",
         "pages/mall-buy/main",
@@ -9,7 +10,6 @@
         "pages/mall-order/main",
         "pages/mall-product-detail/main",
         "pages/mall-register/main",
-        "pages/mall-user-center/main",
         "pages/mall-login/main",
         "pages/mall-product/main"
     ],
