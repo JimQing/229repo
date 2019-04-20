@@ -31,14 +31,14 @@ import _cart from '@/services/cart-service.js';
 import { $Toast } from '../../../static/iView/base/index';
 export default {
     name: 'address',
+    data() {
+        return {
+            addressList: []
+        }
+    },
     components: {
         TopNav,
         BackBtn
-    },
-    computed: {
-        addressList() {
-            return this.$store.state.addressList;
-        }
     },
     methods: {
         onRedirect(path, id = '') {
@@ -51,6 +51,19 @@ export default {
         onChangeAddress(id) {
             this.$store.commit('SELECT_ADDRESS', id);
             wx.navigateBack({delta: 1});
+        },
+        getAddressList() {
+            console.log('store:', this.$store.state.addressList);
+            if(this.$store.state.addressList.length > 0) {
+                this.addressList = this.$store.state.addressList;
+                return;
+            } else {
+                _address.getAddressList().then(res=> {
+                    console.log('result:', res.data.list);
+                    this.addressList = res.data.list;
+                    this.$store.commit('ADDRESS_LIST', this.addressList);
+                });
+            }
         }
     },
     // 获取滚动条当前位置
@@ -60,7 +73,8 @@ export default {
         }, 100);
     },
     onShow() {
-        this.addressList = this.$store.state.addressList;
+        console.log('onshow');
+        this.getAddressList();
     }
 };
 </script>

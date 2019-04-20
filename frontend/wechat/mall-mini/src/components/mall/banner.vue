@@ -28,7 +28,6 @@
                 type: Array,
                 default: [
                     'http://jimqing.xin/image/banner1.png',
-                    'http://jimqing.xin/image/banner2.png',
                     'http://jimqing.xin/image/banner3.png',
                     'http://jimqing.xin/image/banner4.png',
                     'http://jimqing.xin/image/banner5.png'

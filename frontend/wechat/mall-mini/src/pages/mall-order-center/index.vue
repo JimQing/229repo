@@ -104,7 +104,7 @@ export default {
     },
     computed: {
         paidOrder() {
-            return this.orderList.filter(order=> order.statusDesc === '已付款');
+            return this.orderList.filter(order=> order.statusDesc === '已付款' || order.statusDesc === '已发货');
         },
         noPaidOrder() {
             return this.orderList.filter(order=> order.statusDesc === '未支付');
@@ -155,7 +155,7 @@ export default {
         top: 0;
         display: flex;
         align-items: center;
-        height: 1.33rem;
+        height: 1.34rem;
         width: 100%;
         font-size: 0;
         padding-left: .1rem;
@@ -176,7 +176,7 @@ export default {
             width: 100%;
             .content-title{
                 padding-bottom: .15rem;
-                opacity: .7;
+                opacity: .9;
             }
             p{
                 width: 90%;

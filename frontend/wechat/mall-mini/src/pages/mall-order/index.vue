@@ -90,9 +90,7 @@ export default {
                 $Toast({
                     content: '支付成功'
                 });
-                wx.navigateBack({
-                    delta: 1, // 回退前 delta(默认为1) 页面
-                });
+                this.orderInfo.statusDesc = '已付款';
             });
         },
         cancel() {

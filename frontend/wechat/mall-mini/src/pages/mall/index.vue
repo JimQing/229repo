@@ -17,7 +17,11 @@
         <div class="window" v-if="isShowWindow" @touchmove.stop="scrollStop">
             <p>注意</p>
             <p>本小程序商城仅用于个人自学作品的演示！所有商品均为虚拟商品，且不会有真实交易产生！</p>
-            <i-button class="more-btn" type="ghost" @click="closeWindow">了解并使用</i-button>
+            <i-button class="more-btn" 
+                hover-class="more-btn-hover"
+                type="ghost" 
+                open-type="getUserInfo" 
+                @getuserinfo="getLoginInfo">了解并使用</i-button>
         </div>
         <div class="mask" v-if="isShowWindow" @touchmove.stop="scrollStop"></div>
     </div>
@@ -65,22 +69,6 @@
             showCase
         },
         methods: {
-            getLoginInfo() {
-                const _this = this;
-                // 获取用户信息
-                wx.login({
-                    success: function() {
-                        wx.getUserInfo({
-                            success: res=> {
-                                for (let key in res.userInfo) {
-                                    _this.userData[key] = res.userInfo[key];
-                                }
-                                _this.$store.commit('USER_INFO', _this.userData);
-                            }
-                        })
-                    }
-                });
-            },
             checkLogin() {
                 let openid = _storage.getStorageSync('openid');
                 let _this = this;
@@ -105,11 +93,14 @@
                     url: '../mall-product/main?content=' + this.content
                 })
             },
-            closeWindow() {
+            getLoginInfo(e) {
+                const userInfo = JSON.parse(e.mp.detail.rawData);
+
+                for (let key in userInfo) {
+                    this.userData[key] = userInfo[key];
+                }
+                this.$store.commit('USER_INFO', this.userData);
                 this.$store.commit('TIPS', false);
-            },
-            onGotUserInfo(e) {
-                console.log('onGotUserInfo', e);
             },
             scrollStop() {}
         },
@@ -143,7 +134,6 @@
                             this.userData = res.data;
                             this.$store.commit('USER_INFO', res.data);
                             this.$store.commit('USER_STATES', true);
-                            this.getLoginInfo();
                         }
                     });
                 });
@@ -217,6 +207,13 @@
 
         .more-btn {
             margin-bottom: 1rem;
+        }
+        .more-btn-hover{
+            position: relative;
+            top: 3rpx;
+            left: 3rpx;
+            margin-bottom: 1rem;
+            box-shadow:0 0 16rpx rgba(0, 0, 0, .1) inset;
         }
     }
     .window{

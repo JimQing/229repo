@@ -115,7 +115,7 @@ export default {
             this.id = this.addressList[id].id;
             this.addressInfo = Object.assign(this.addressInfo, this.addressList[id]);
         },
-        onRedirect(path) {
+        onRedirect() {
             wx.navigateTo({
                 url: '/pages/mall-address/main'
             });
@@ -147,7 +147,6 @@ export default {
                     });
                     _address.getAddressList().then(res=> {
                         this.$store.commit('ADDRESS_LIST', res.data.list);
-                        console.log(this.$store.state.addressList);
                         this.onBack();
                     });
                 });
@@ -168,9 +167,9 @@ export default {
             _address.deleteAddress(this.id).then(res=> {
                 _address.getAddressList().then(res=> {
                     this.$store.commit('ADDRESS_LIST', res.data.list);
+                    this.isShowDelete = false;
+                    this.onBack();
                 });
-                this.isShowDelete = false;
-                this.onBack();
             });
         },
         checkVaild() {
