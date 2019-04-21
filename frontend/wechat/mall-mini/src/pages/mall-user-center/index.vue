@@ -3,7 +3,7 @@
         <TopNav :isShowInput="false"/>
         <div class="top">
             <div class="top-img"></div>
-            <div class="square" :style="getAvatarUrl">
+            <div class="circle" :style="getAvatarUrl">
             </div>
             <div class="nick-name">{{userInfo.nickName}}</div>
         </div>
@@ -114,7 +114,7 @@ export default {
             width: 100%;
             height: 100%;
         }
-        .square{
+        .circle{
             position: absolute;
             top: 3.5rem;
             left: 50%;
@@ -126,6 +126,15 @@ export default {
             background-size: cover;
             border-radius: 50%;
             box-shadow: .05rem .08rem .16rem 0 #868686;
+            animation: flowdown .5s ease-in;
+        }
+        @keyframes flowdown {
+            0%{
+                top: 2.5rem;
+            }
+            100%{
+                top: 3.5rem;
+            }
         }
         .nick-name{
             text-align: center;
@@ -140,18 +149,6 @@ export default {
         flex-flow: wrap;
         width: 100%;
         margin: 0 auto;
-        .form-line{
-            height: 1rem;
-            line-height: 1rem;
-            font-size: .36rem;
-            border-bottom: 1px solid #dfdede;
-            background: ghostwhite;
-            .label{
-                display: inline-block;
-                width: 1.5rem;
-                padding: 0 .2rem;
-            }
-        }
         .form-circle{
             position: relative;
             display: inline-block;
@@ -166,6 +163,7 @@ export default {
             border-radius: 50%;
             box-shadow: 0rpx 3rpx 6rpx rgba(0,0,0,0.3),
             0 0 10rpx rgba(0,0,0,0.1) inset; 
+            animation: changeSize 1s ease-in;
             .item-img {
                 position: absolute;
                 top: 38%;
@@ -192,6 +190,17 @@ export default {
             }
         }
     }
+     @keyframes changeSize {
+            0%{
+                transform: scale(1.1);
+            }
+            50%{
+                transform: scale(.9);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
     .tip{
         text-align: center;
         font-size: .28rem;

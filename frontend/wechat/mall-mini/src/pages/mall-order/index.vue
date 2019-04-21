@@ -29,11 +29,12 @@
                     </div>
                 </div>
             </div>
-            <i-button class="btn" v-if="orderInfo.statusDesc !== '已取消' && orderInfo.statusDesc !== '已付款'"
+            <i-button class="btn"
+                v-if="orderInfo.statusDesc === '未支付'"
                 type="ghost" 
                 @click="submit">去支付</i-button>
             <i-button class="btn"
-                v-if="orderInfo.statusDesc !== '已取消' && orderInfo.statusDesc !== '已付款'" 
+                v-if="orderInfo.statusDesc === '未支付'"
                 type="ghost" @click="cancel">取消订单</i-button>
         </div>
         <i-toast id="toast"  @touchmove.stop="scrollStop" />

@@ -49,17 +49,21 @@ export default {
             });
         },
         onChangeAddress(id) {
+            const pages = getCurrentPages();
+            const previousPage = pages[pages.length - 2];
+
+            if (previousPage.__route__ === 'pages/mall-user-center/main') {
+                return;
+            }
             this.$store.commit('SELECT_ADDRESS', id);
             wx.navigateBack({delta: 1});
         },
         getAddressList() {
-            console.log('store:', this.$store.state.addressList);
             if(this.$store.state.addressList.length > 0) {
                 this.addressList = this.$store.state.addressList;
                 return;
             } else {
                 _address.getAddressList().then(res=> {
-                    console.log('result:', res.data.list);
                     this.addressList = res.data.list;
                     this.$store.commit('ADDRESS_LIST', this.addressList);
                 });
@@ -73,7 +77,6 @@ export default {
         }, 100);
     },
     onShow() {
-        console.log('onshow');
         this.getAddressList();
     }
 };
