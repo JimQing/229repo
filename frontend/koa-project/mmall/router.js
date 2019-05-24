@@ -9,13 +9,8 @@ router
         ctx.set('Access-Control-Allow-Headers', 'content-type');
         ctx.set('Access-Control-Allow-Credentials', 'true');
         ctx.set('Cache-Control', 'max-age=10');
-        ctx.set('Last-Modified', 'Mon Feb 11 2019 10:53:06 GMT');
-        console.log(ctx.request.header);
         if (ctx.request.method === 'OPTIONS') {
             ctx.status = 200;
-        } else if (ctx.request.header['if-modified-since'] === 'Mon Feb 11 2019 10:53:06 GMT') {
-            ctx.status = 304;
-            console.log('in 304');
         } else {
             console.log('in next');
             await next();
@@ -26,30 +21,27 @@ router
     });
 
 // get 请求获取静态资源（下载）
-router.get('/static/:name', async ctx=> {
-    const name = ctx.params.name;
-    const path = `./image/${name}`;
-    ctx.attachment(path);
-    await send(ctx, path);
-});
+// router.get('/static/:name', async ctx=> {
+//     const name = ctx.params.name;
+//     const path = `./image/${name}`;
+//     ctx.attachment(path);
+//     await send(ctx, path);
+// });
 
 // router get方法
-router.get('/test', (ctx, next) => {
-    console.log('in test');
-    ctx.body = {
-        word: 'get request from /test!'
-    };
-    // 通过next走下一个函数
-    // next();
-});
-// }, ctx => {
-//     ctx.body += '。。。 /test2!';
+// router.get('/test', (ctx, next) => {
+//     console.log('in test');
+//     ctx.body = {
+//         word: 'get request from /test!'
+//     };
+//     // 通过next走下一个函数
+//     // next();
 // });
 
 // router post方法
-router.post('/post', ctx=> {
-    ctx.body = 'get request from /post!';
-});
+// router.post('/post', ctx=> {
+//     ctx.body = 'get request from /post!';
+// });
 
 // 链式写法
 router
@@ -65,6 +57,11 @@ router
     })
     .post('/post', ctx=> {
         ctx.body = 'get request from /post!';
+    })
+    .get('/jsonp', async ctx => {
+        ctx.body = {
+            data: 'get request from /jsonp!'
+        };
     });
 
 module.exports = router;
