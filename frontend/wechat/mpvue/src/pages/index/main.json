@@ -1,0 +1,8 @@
+{
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark",
+    "usingComponents": {
+        "weather": "plugin://myPlugin/weather",
+        "i-input": "../../static/iView/input/index"
+    }
+}

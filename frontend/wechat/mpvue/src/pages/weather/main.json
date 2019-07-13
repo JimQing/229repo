@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "weathlist": "plugin://myPlugin/weathlist"
+    }
+}
