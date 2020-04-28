@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <!-- <meta http-equiv="Cache-Control" content="max-age:40000"> -->
+	<script src="http://127.0.0.1:3000/socket.io/socket.io.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+	<button id="send" onclick="emitFun()">发送到服务器</button>
+</body>
+<script>
+	var socket = io('ws://127.0.0.1:3000');
+	var send = document.querySelector('#send');
+	var msg = document.querySelector('#msg');
+
+	socket.on('getMsg', data => {
+	  console.log('服务端消息：',  data);
+	})
+
+	function emitFun() {
+        console.log('点击了发送消息！');
+	   // 通过emit触发发送请求
+	   socket.emit('send', 'hello');
+    }
+</script>
+</html>
